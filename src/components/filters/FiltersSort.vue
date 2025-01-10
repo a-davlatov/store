@@ -1,10 +1,11 @@
 <script setup>
 import { watch, inject } from 'vue'
-import { store } from '../../composables/store.js'
+import { useFiltersStore } from '@/store/filtersStore.js'
 
+const filtersStore = useFiltersStore()
 const fetchProducts = inject('fetchProducts')
 
-watch(() => store.filters.sortBy, () => {
+watch(() => filtersStore.sortBy, () => {
   fetchProducts()
 })
 </script>
@@ -16,7 +17,7 @@ watch(() => store.filters.sortBy, () => {
     class="hidden" 
     type="radio" 
     value="title" 
-    v-model="store.filters.sortBy" 
+    v-model="filtersStore.sortBy" 
     id="sortBy_name"
   >
   <label 
@@ -30,7 +31,7 @@ watch(() => store.filters.sortBy, () => {
     class="hidden" 
     type="radio" 
     value="price" 
-    v-model="store.filters.sortBy" 
+    v-model="filtersStore.sortBy" 
     id="sortBy_price"
   >
   <label 
@@ -44,7 +45,7 @@ watch(() => store.filters.sortBy, () => {
     class="hidden" 
     type="radio" 
     value="-price" 
-    v-model="store.filters.sortBy" 
+    v-model="filtersStore.sortBy" 
     id="sortBy_price_desc"
   >
   <label 
@@ -56,7 +57,6 @@ watch(() => store.filters.sortBy, () => {
 </template>
 
 <style>
-
 input[type="radio"]:checked+label {
   color: rgb(249, 115, 22);
 }
@@ -67,9 +67,4 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-/* Firefox */
-/* input[type=number] {
-  -moz-appearance: textfield;
-} */
 </style>

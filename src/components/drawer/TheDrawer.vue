@@ -3,20 +3,26 @@ import { computed, ref } from 'vue'
 import DrawerHead from './DrawerHead.vue'
 import CartItem from './CartItem.vue'
 import DrawerInfoBlock from './DrawerInfoBlock.vue'
-import { store } from '../../composables/store.js'
 import { postOrder } from '../../api/order.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
+import { useCartStore } from '@/store/cartStore.js'
 
-const totalPrice = computed(() => store.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0))
+const cartStore = useCartStore()
+const drawerStore = useDrawerStore()
+const authStore = useAuthStore()
+
+const totalPrice = computed(() => cartStore.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0))
 const orderCreated = ref(null)
 const isOrderCreating = ref(false)
 
 const removeFromCart = (item) => {
-  store.cart = store.cart.filter((el) => el.id !== item.id)
+  cartStore.cart = cartStore.cart.filter((el) => el.id !== item.id)
 }
 
 const createOrder = async () => {
   
-  if (!store.signedIn) {
+  if (!authStore.isAuth) {
     return;
   }
 
@@ -27,14 +33,14 @@ const createOrder = async () => {
 
   try {
     const orderData = {
-      items: store.cart,
+      items: cartStore.cart,
       totalPrice: totalPrice.value,
-      user_id: store.userData.data.id,
+      user_id: authStore.data.id,
       order_date: formattedDate
     }
     
     const { data } = await postOrder(orderData)
-    store.cart = []
+    cartStore.cart = []
     orderCreated.value = data.id
   } catch (error) {
     console.error('Error: ', error.message)
@@ -47,18 +53,18 @@ const createOrder = async () => {
 
 <template>
   <div 
-    @click.self="store.drawerToggle"
-    class="fixed top-0 left-0 z-20 w-full h-full bg-black/70 z-10"
+    @click.self="drawerStore.toggle"
+    class="fixed top-0 left-0 z-20 w-full h-full bg-black/70"
   >
     <div class="bg-white w-96 max-w-full h-full fixed right-0 top-0 z-20 p-5 sm:p-8 flex flex-col">
       <DrawerHead />
 
       <div 
-        v-show="store.cart.length > 0" 
+        v-show="cartStore.cart.length > 0" 
         class="cart-items overflow-auto flex flex-1 flex-col gap-3"
       >
         <CartItem 
-          v-for="item in store.cart"
+          v-for="item in cartStore.cart"
           :key="item.id"
           :image-url="item.imageUrl"
           :title="item.title"
@@ -69,7 +75,7 @@ const createOrder = async () => {
       </div>
 
       <div 
-        v-if="!store.signedIn && store.cart.length > 0" 
+        v-if="!authStore.isAuth && cartStore.cart.length > 0" 
         class="text-red-600 text-center mt-2"
       >
         Чтобы оформить заказ, нужно сначала <RouterLink class="underline hover:no-underline" to="/login">войти</RouterLink> на сайт.
@@ -87,7 +93,7 @@ const createOrder = async () => {
 
         <button 
           class="mt-3 bg-black w-full py-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"
-          :disabled="isOrderCreating || !store.signedIn"
+          :disabled="isOrderCreating || !authStore.isAuth"
           @click="createOrder"
         >
           Оформить заказ

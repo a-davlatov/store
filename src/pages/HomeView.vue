@@ -12,15 +12,19 @@ import { useAddToCart } from '../composables/useAddToCart.js'
 import { useAddToFavorites } from '../composables/useAddToFavorites.js'
 import { useRemoveFromFavorites } from '../composables/useRemoveFromFavorites.js'
 import { useRefreshIsAddedValue } from '../composables/useRefreshIsAddedValue.js'
-import { store } from '../composables/store.js'
 import { useFetchFavorites } from '../composables/useFetchFavorites.js'
 import { getSaleProducts } from '../api/products.js'
+import { useCartStore } from '@/store/cartStore.js'
+import { useProductsStore } from '@/store/productsStore'
+
+const productsStore = useProductsStore()
+const cartStore = useCartStore()
 
 onMounted( async () => {
-  store.products = []
+  productsStore.clear()
   try {
     const { data } = await getSaleProducts()
-    store.products = data
+    productsStore.products = data
     useRefreshIsAddedValue()
     useFetchFavorites()
   } catch (error) {
@@ -70,7 +74,7 @@ onMounted( async () => {
 
     <swiper
       class="swiper-sales mt-3 sm:mt-4 mb-20"
-      v-if="store.products.length > 0"
+      v-if="productsStore.products.length > 0"
       :slides-per-view="1"
       :space-between="5"
       :loop="true"
@@ -92,7 +96,7 @@ onMounted( async () => {
       :modules="[Autoplay]"
     >
       <swiper-slide
-        v-for="product in store.products"
+        v-for="product in productsStore.products"
         :key="product.id"
       >
         <ProductCard
@@ -102,7 +106,7 @@ onMounted( async () => {
           :image-url="product.imageUrl"
           :is-added="product.isAdded"
           :is-favorite="product.isFavorite"
-          @on-click-add="useAddToCart(product, store.cart)"
+          @on-click-add="useAddToCart(product, cartStore.cart)"
           @add-to-favorites="useAddToFavorites(product)"
           @remove-from-favorites="useRemoveFromFavorites(product)"
         />

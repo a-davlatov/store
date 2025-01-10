@@ -1,34 +1,37 @@
 import axios from 'axios'
-import { store } from '../composables/store.js'
+import { useAuthStore } from '@/store/authStore.js'
+
+const authStore = useAuthStore()
+const API_URL = import.meta.env.VITE_API_URL
 
 export function postFavorite(data) {
-  return axios.post(`${store.API_URL}/favorites`, data, {
+  return axios.post(`${API_URL}/favorites`, data, {
     headers: {
-      'Authorization': `Bearer ${store.userData.token}`
+      'Authorization': `Bearer ${authStore.token}`
     }
   })
 }
 
 export function deleteFavorite(product) {
-  return axios.delete(`${store.API_URL}/favorites/${product.favoriteId}`, {
+  return axios.delete(`${API_URL}/favorites/${product.favoriteId}`, {
     headers: {
-      'Authorization': `Bearer ${store.userData.token}`
+      'Authorization': `Bearer ${authStore.token}`
     }
   })
 }
 
 export function getFavoritesWithProducts() {
-  return axios.get(`${store.API_URL}/favorites?user_id=${store.userData.data.id}&_relations=products`, {
+  return axios.get(`${API_URL}/favorites?user_id=${authStore.data.id}&_relations=products`, {
     headers: {
-      'Authorization': `Bearer ${store.userData.token}`
+      'Authorization': `Bearer ${authStore.token}`
     }
   })
 }
 
 export function getFavorites() {
-  return axios.get(`${store.API_URL}/favorites?user_id=${store.userData.data.id}`, {
+  return axios.get(`${API_URL}/favorites?user_id=${authStore.data.id}`, {
     headers: {
-      'Authorization': `Bearer ${store.userData.token}`
+      'Authorization': `Bearer ${authStore.token}`
     }
   })
 }

@@ -1,14 +1,17 @@
 import { getFavorites } from '../api/favorites.js'
-import { store } from '../composables/store.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { useProductsStore } from '@/store/productsStore'
 
 export async function useFetchFavorites() {
-  if (!store.userData) {
+  const productsStore = useProductsStore()
+  const authStore = useAuthStore()
+  if (!authStore.isAuth) {
     return
   }
 
   try {
     const { data } = await getFavorites()
-    store.products = store.products.map((product) => {
+    productsStore.products = productsStore.products.map((product) => {
       const favorite = data.find(favorite => favorite.product_id === product.id)
 
       if (!favorite) {

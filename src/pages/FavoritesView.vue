@@ -7,17 +7,25 @@ import EmptyInfoBlock from '../components/EmptyInfoBlock.vue'
 import { useAddToCart } from '../composables/useAddToCart.js'
 import { useRemoveFromFavorites } from '../composables/useRemoveFromFavorites.js'
 import { useRefreshIsAddedValue } from '../composables/useRefreshIsAddedValue.js'
-import { store } from '../composables/store.js'
+import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 import { getFavoritesWithProducts } from '../api/favorites.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { useCartStore } from '@/store/cartStore.js'
+import { useProductsStore } from '@/store/productsStore'
+
+const productsStore = useProductsStore()
+const cartStore = useCartStore()
+const authStore = useAuthStore()
+const loadingStore = useIsLoadingStore()
 
 onMounted( async () => {
-  store.products = []
-  if (store.signedIn) {
-    store.loading = true
+  productsStore.clear()
+  if (authStore.isAuth) {
+    loadingStore.loading = true
 
     try {
       const { data } = await getFavoritesWithProducts()
-      store.products = data.map((favorite) => {
+      productsStore.products = data.map((favorite) => {
         favorite.product.favoriteId = favorite.id
         return favorite.product
       })
@@ -26,7 +34,7 @@ onMounted( async () => {
     } catch (error) {
       console.error('Error: ', error.message)
     } finally {
-      store.loading = false
+      loadingStore.loading = false
     }
   }
 })
@@ -38,7 +46,7 @@ onMounted( async () => {
   <div class="container">
     <div class="h-fit">
       <h1 
-        v-if="store.products.length > 0 || store.loading" 
+        v-if="productsStore.products.length > 0 || loadingStore.loading" 
         class="text-2xl font-bold"
       >
         Избранное
@@ -52,7 +60,7 @@ onMounted( async () => {
 
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 sm:gap-1 -mx-2 mt-5">
         <ProductCard 
-          v-for="product in store.products" 
+          v-for="product in productsStore.products" 
           :key="product.id"
           :title="product.title" 
           :price="product.price"
@@ -60,7 +68,7 @@ onMounted( async () => {
           :image-url="product.imageUrl"
           :is-added="product.isAdded"
           :is-favorite="true"
-          @on-click-add="useAddToCart(product, store.cart)"
+          @on-click-add="useAddToCart(product, cartStore.cart)"
           @remove-from-favorites="useRemoveFromFavorites(product, true)"
         />
       </div>

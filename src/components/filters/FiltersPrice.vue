@@ -2,11 +2,13 @@
 import { computed, watch, inject } from 'vue'
 import Slider from '@vueform/slider'
 import "@vueform/slider/themes/default.css"
-import { store } from '../../composables/store.js'
+import { useFiltersStore } from '@/store/filtersStore.js'
+
+const filtersStore = useFiltersStore()
 
 const rangeOptions = computed(() => ({
-  min: store.filters.price.from,
-  max: store.filters.price.to,
+  min: filtersStore.price.from,
+  max: filtersStore.price.to,
   tooltips: false,
   lazy: false,
   options: {
@@ -24,9 +26,9 @@ const onEndRange = async () => {
   productsBrands.value = getProductsBrands()
 }
 
-watch(() => store.filters.price, () => {
+watch(() => filtersStore.price, () => {
   setTimeout(() => {
-    rangeValues.value = [store.filters.price.from, store.filters.price.to]
+    rangeValues.value = [filtersStore.price.from, filtersStore.price.to]
   }, 100)
 }, {deep: true})
 

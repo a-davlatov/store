@@ -1,18 +1,22 @@
 import axios from 'axios'
-import { store } from '../composables/store.js'
+import { useAuthStore } from '@/store/authStore.js'
+
+const API_URL = import.meta.env.VITE_API_URL
 
 export function postOrder(data) {
-  return axios.post(`${store.API_URL}/orders`, data, {
+  const authStore = useAuthStore()
+  return axios.post(`${API_URL}/orders`, data, {
     headers: {
-      'Authorization': `Bearer ${store.userData.token}`
+      'Authorization': `Bearer ${authStore.token}`
     }
   })
 }
 
 export function getOrders() {
-  return axios.get(`${store.API_URL}/orders?user_id=${store.userData.data.id}&_select=-user,-user_id`, {
+  const authStore = useAuthStore()
+  return axios.get(`${API_URL}/orders?user_id=${authStore.data.id}&_select=-user,-user_id`, {
     headers: {
-      'Authorization': `Bearer ${store.userData.token}`
+      'Authorization': `Bearer ${authStore.token}`
     }
   })
 }

@@ -1,8 +1,11 @@
-import { store } from './store.js'
+import { useCartStore } from '@/store/cartStore.js'
+import { useProductsStore } from '@/store/productsStore'
 
 export function useRefreshIsAddedValue() {
-  store.products = store.products.map((product) => ({
+  const cartStore = useCartStore()
+  const productsStore = useProductsStore()
+  productsStore.products = productsStore.products.map((product) => ({
     ...product,
-    isAdded: store.cart.some((cartproduct) => cartproduct.id === product.id)
+    isAdded: cartStore.cart.some((cartproduct) => cartproduct.id === product.id)
   }))
 }

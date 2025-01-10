@@ -1,17 +1,17 @@
 <script setup>
+import { useAuthStore } from '@/store/authStore.js'
 
-import { store } from '../composables/store.js'
+const authStore = useAuthStore()
 
 defineProps({
   title: String,
   subTitle: String,
 })
-
 </script>
 
 <template>
   <div class="sm:mt-80 mt-60 text-center">
-    <div v-if="store.userData">
+    <div v-if="authStore.isAuth">
       <h2 class="sm:text-2xl text-xl font-bold mb-1">{{ title }}</h2>
       <p class="text-slate-400">{{ subTitle }}</p>
     </div>

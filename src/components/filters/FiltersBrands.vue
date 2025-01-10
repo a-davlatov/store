@@ -2,8 +2,9 @@
 
 import { ref, watch, inject, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { store } from '../../composables/store.js'
+import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 
+const loadingStore = useIsLoadingStore()
 const route = useRoute()
 const checkedBrands = ref([])
 
@@ -14,7 +15,7 @@ const { getProductsBrands } = defineProps(['getProductsBrands'])
 const fetchProducts = inject('fetchProducts')
 const changeBrands = () => {
   const timeout = setInterval(() => {
-    if (store.loading === false) {
+    if (loadingStore.loading === false) {
       productsBrands.value = getProductsBrands()
       clearTimeout(timeout)
     }

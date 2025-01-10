@@ -1,5 +1,7 @@
 <script setup>
-import { store } from '../composables/store.js'
+import { useAuthStore } from '@/store/authStore.js'
+
+const authStore = useAuthStore()
 
 defineProps({
   imageUrl: String,
@@ -33,7 +35,7 @@ defineProps({
       </button>
 
       <div 
-        v-show="!store.signedIn"
+        v-show="!authStore.isAuth"
         class="product-prompt absolute opacity-0 invisible transition top-5 right-12 text-xs text-white px-2 py-1 rounded bg-black/60"
       >
         Войдите сначала на сайт

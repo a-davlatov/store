@@ -1,7 +1,13 @@
 <script setup>
-import { onMounted, reactive } from 'vue'
-import { store } from '../composables/store.js'
+import { onMounted, reactive, ref } from 'vue'
 import { patchUser } from '../api/user.js'
+import { useIsLoadingStore } from '@/store/isLoadingStore.js'
+import { useAuthStore } from '@/store/authStore.js'
+
+const authStore = useAuthStore()
+const loadingStore = useIsLoadingStore()
+const errorText = ref('')
+const successText = ref('')
 
 const userData = reactive({
   name: '',
@@ -16,40 +22,43 @@ const userPassword = reactive({
 })
 
 const patchUserData = async () => {
-  store.clearMessages()
+  errorText.value = ''
+  successText.value = ''
+
   if (userPassword.newPassword !== '' || userPassword.confirmPassword !== '') {
     if (userPassword.newPassword !== userPassword.confirmPassword) {
-      store.errorText = 'Пароли не совпадают'
+      errorText.value = 'Пароли не совпадают'
       return
     }
     userData.password = userPassword.newPassword
   }
 
   try {
-    store.loading = true
+    loadingStore.loading = true
     const { data } = await patchUser(userData)
-    const localData = JSON.parse(localStorage.getItem('userData'))
+    const localData = JSON.parse(localStorage.getItem('user_data'))
     localData.data = data
-    localStorage.setItem('userData', JSON.stringify(localData))
-    store.userData = JSON.parse(localStorage.getItem('userData'))
-    store.successText = 'Ваши данные успешно изменены'
+    localStorage.setItem('user_data', JSON.stringify(localData))
+    authStore.set(localData)
+    successText.value = 'Ваши данные успешно изменены'
   } catch (error) {
-    store.errorText = 'Ваши данные не были сохранены'
+    errorText.value = 'Ваши данные не были сохранены'
     console.error('Error: ', error.message)
   } finally {
-    store.loading = false
+    loadingStore.loading = false
     setTimeout(() => {
-      store.clearMessages()
+      errorText.value = ''
+      successText.value = ''
     }, 5000);
   }
 }
 
 onMounted(() => {
-  if (store.signedIn) {
-    userData.name = store.userData.data.name
-    userData.surname = store.userData.data.surname
-    userData.email = store.userData.data.email
-    userData.phone = store.userData.data.phone
+  if (authStore.isAuth) {
+    userData.name = authStore.data.name
+    userData.surname = authStore.data.surname
+    userData.email = authStore.data.email
+    userData.phone = authStore.data.phone
   }
 })
 
@@ -62,7 +71,7 @@ onMounted(() => {
 
       <div class="flex flex-col sm:flex-row mt-5 gap-8">
         <div class="w-40 h-40 avatar bg-sky-200 flex items-center justify-center">
-          <span class="text-6xl text-white">{{ store.userData.data.name[0] }}</span>
+          <span class="text-6xl text-white">{{ authStore.data.name[0] }}</span>
         </div>
 
         <form 
@@ -71,18 +80,18 @@ onMounted(() => {
           method="POST"
         >
           <div 
-            v-if="store.errorText !== ''"
+            v-if="errorText !== ''"
             class="justify-center message mb-8 text-base font-bold text-red-500 flex items-center gap-2"
           >
             <i class="bi bi-x-octagon"></i>
-            {{ store.errorText }}
+            {{ errorText }}
           </div>
           <div 
-            v-if="store.successText !== ''"
+            v-if="successText !== ''"
             class="justify-center message mb-8 text-base font-bold text-lime-400 flex items-center gap-2"
           >
             <i class="bi bi-check-circle"></i>
-            {{ store.successText }}
+            {{ successText }}
           </div>
 
           <div class="grid md:grid-cols-2 gap-4 mb-8">
@@ -202,11 +211,11 @@ onMounted(() => {
           </div>
 
           <button 
-            :disabled="store.loading ? true : false" 
+            :disabled="loadingStore.loading ? true : false" 
             type="submit"
             class="w-full sm:max-w-40 text-center border transition border-black bg-white  px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2"
           >
-            {{ !store.loading ? 'Сохранить' : 'Загрузка' }}
+            {{ !loadingStore.loading ? 'Сохранить' : 'Загрузка' }}
           </button>
         </form>
       </div>

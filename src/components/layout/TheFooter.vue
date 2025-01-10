@@ -18,7 +18,7 @@
         </li>
       </ul>
 
-      <div class="text-slate-400 mt-5 pt-5 border-t">© Vue Moda 2024, Все права защищены. </div>
+      <div class="text-slate-400 mt-5 pt-5 border-t">© Vue Moda 2024 - {{ new Date().getFullYear() }}. Все права защищены. </div>
     </div>
   </footer>
 </template>

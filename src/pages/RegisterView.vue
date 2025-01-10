@@ -1,7 +1,11 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import { store } from '../composables/store.js'
 import { registerUser } from '../api/user.js'
+import { useIsLoadingStore } from '@/store/isLoadingStore.js'
+
+const loadingStore = useIsLoadingStore()
+const errorText = ref('')
+const successText = ref('')
 
 const userData = reactive({
   name: '',
@@ -14,23 +18,24 @@ const userData = reactive({
 const confirmPassword = ref('')
 
 const loginOrAuth = async () => {
-  store.clearMessages()
+  errorText.value = ''
+  successText.value = ''
 
   if (userData.password !== confirmPassword.value) {
-    store.errorText = 'Пароли не совпадают'
+    errorText.value = 'Пароли не совпадают'
     return
   }
 
   try {
-    store.loading = true
+    loadingStore.loading = true
     await registerUser(userData)
-    store.successText = 'Регистрация прошла успешно'
+    successText.value = 'Регистрация прошла успешно'
   } catch (error) {
-    store.errorText = 'Пользователь уже существует'
+    errorText.value = 'Пользователь уже существует'
     console.error('An error accured: ', error.message)
   } finally {
     clearInputsVal()
-    store.loading = false
+    loadingStore.loading = false
   }
 }
 
@@ -44,7 +49,8 @@ const clearInputsVal = () => {
 }
 
 onMounted(() => {
-  store.clearMessages()
+  errorText.value = ''
+  successText.value = ''
   clearInputsVal()
 })
 
@@ -56,18 +62,18 @@ onMounted(() => {
       <h2 class="mt-10 text-center text-xl sm:text-2xl font-bold leading-9 tracking-tight text-gray-900">Регистрация</h2>
 
       <div 
-        v-if="store.errorText !== ''" 
+        v-if="errorText !== ''" 
         class="justify-center message mt-8 -mb-8 text-base font-bold text-red-500 flex items-center gap-2"
       >
         <i class="bi bi-x-octagon"></i>
-        {{ store.errorText }}
+        {{ errorText }}
       </div>
       <div 
-        v-if="store.successText !== ''" 
+        v-if="successText !== ''" 
         class="justify-center message mt-8 -mb-8 text-base font-bold text-lime-400 flex items-center gap-2"
       >
         <i class="bi bi-check-circle"></i>
-        {{ store.successText }}
+        {{ successText }}
       </div>
     </div>
 
@@ -198,11 +204,11 @@ onMounted(() => {
 
         <div class="flex justify-center">
           <button 
-            :disabled="store.loading ? true : false"
+            :disabled="loadingStore.loading ? true : false"
             type="submit"
             class="sm:w-full sm:max-w-sm text-center border transition border-black bg-white  px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2"
           >
-            {{ !store.loading ? 'Зарегистрироваться' : 'Загрузка' }}
+            {{ !loadingStore.loading ? 'Зарегистрироваться' : 'Загрузка' }}
           </button>
         </div>
       </form>

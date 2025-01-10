@@ -1,10 +1,16 @@
 <script setup>
-import { reactive, onMounted, onBeforeMount } from 'vue'
+import { reactive, onMounted, onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { store } from '../composables/store.js'
 import { loginUser } from '../api/user.js'
+import { useIsLoadingStore } from '@/store/isLoadingStore.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
 
+const drawerStore = useDrawerStore()
+const authStore = useAuthStore()
+const loadingStore = useIsLoadingStore()
 const router = useRouter()
+const errorText = ref('')
 
 const userData = reactive({
   email: '',
@@ -12,8 +18,8 @@ const userData = reactive({
 })
 
 const login = async () => {
-  store.clearMessages()
-  store.loading = true
+  errorText.value = ''
+  loadingStore.loading = true
 
   try {
     const data = {
@@ -22,21 +28,20 @@ const login = async () => {
     }
 
     const response = await loginUser(data)
-    store.signedIn = true
-    localStorage.setItem('userData', JSON.stringify(response.data))
-    store.userData = JSON.parse(localStorage.getItem('userData'))
+    localStorage.setItem('user_data', JSON.stringify(response.data))
+    authStore.set(response.data)
     router.push('/')
   } catch (error) {
     if (error.message === 'Network Error') {
-      store.errorText = 'Проверьте подключение к сети и попробуйте еще раз'
+      errorText.value = 'Проверьте подключение к сети и попробуйте еще раз'
       console.error('An error accured: ', error.message)
       return
     }
-    store.errorText = 'Неверный логин или пароль'
+    errorText.value = 'Неверный логин или пароль'
     console.error('An error accured: ', error.message)
   } finally {
     clearInputsVal()
-    store.loading = false
+    loadingStore.loading = false
   }
 }
 
@@ -46,11 +51,11 @@ const clearInputsVal = () => {
 }
 
 onBeforeMount(() => {
-  store.drawerOpen = false
+  if (drawerStore.isOpen) drawerStore.toggle()
 })
 
 onMounted(() => {
-  store.clearMessages()
+  errorText.value = ''
   clearInputsVal()
 })
 
@@ -62,11 +67,11 @@ onMounted(() => {
       <h2 class="mt-10 text-center text-xl sm:text-2xl font-bold leading-9 tracking-tight text-gray-900">Вход в аккаунт</h2>
 
       <div 
-        v-if="store.errorText !== ''" 
+        v-if="errorText !== ''" 
         class="message mt-8 -mb-8 text-base font-bold text-red-500 flex items-center gap-2"
       >
         <i class="bi bi-x-octagon"></i>
-        {{ store.errorText }}
+        {{ errorText }}
       </div>
     </div>
 
@@ -118,11 +123,11 @@ onMounted(() => {
 
         <div>
           <button 
-            :disabled="store.loading ? true : false"
+            :disabled="loadingStore.loading ? true : false"
             type="submit"
             class="flex w-full justify-center border transition border-black bg-white  px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2"
           >
-            {{ !store.loading ? 'Войти' : 'Загрузка' }}
+            {{ !loadingStore.loading ? 'Войти' : 'Загрузка' }}
           </button>
         </div>
       </form>

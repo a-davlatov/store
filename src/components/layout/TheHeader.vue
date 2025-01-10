@@ -2,21 +2,25 @@
 
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { store } from '../../composables/store.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
+import { useCartStore } from '@/store/cartStore.js'
 
 import TheBurger from '../TheBurger.vue'
 import TheSearch from '../TheSearch.vue'
 
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
+const cartStore = useCartStore()
 
 const showNav = ref(false)
+const drawerStore = useDrawerStore()
 
 const logout = () => {
+  authStore.clear()
   router.push('/login')
-  store.signedIn = false
-  store.userData = null
-  localStorage.removeItem('userData')
+  localStorage.removeItem('user_data')
 }
 
 watch(() => route.params.category, () => showNav.value = false)
@@ -29,7 +33,7 @@ watch(() => route.params.category, () => showNav.value = false)
       <div class="flex py-5 items-center justify-between">
         <RouterLink to="/" class="sm:text-3xl text-2xl font-bold logo">vue moda</RouterLink>
         <div class="flex items-center gap-5">
-          <RouterLink v-if="!store.signedIn" to="/login"
+          <RouterLink v-if="!authStore.isAuth" to="/login"
             class="py-1 px-5 border border-black rounded hover:bg-black hover:text-white transition login">
             Войти
           </RouterLink>
@@ -45,12 +49,12 @@ watch(() => route.params.category, () => showNav.value = false)
               <div class="bg-white">
                 <div class="flex items-center gap-2 p-3 profile-head">
                   <div class="w-10 h-10 rounded-2xl bg-sky-200 flex items-center justify-center">
-                    <span class="text-2xl text-white">{{ store.userData.data.name[0] }}</span>
+                    <span class="text-2xl text-white">{{ authStore.data.name[0] }}</span>
                   </div>
                   <div>
-                    <div class="text-left text-base whitespace-nowrap">{{ store.userData.data.name + ' ' +
-                      store.userData.data.surname }}</div>
-                    <div class="text-left text-xs text-slate-500">{{ store.userData.data.email }}</div>
+                    <div class="text-left text-base whitespace-nowrap">{{ authStore.data.name + ' ' +
+                      authStore.data.surname }}</div>
+                    <div class="text-left text-xs text-slate-500">{{ authStore.data.email }}</div>
                   </div>
                 </div>
                 <ul class="list-reset py-3 border-t border-gray-200">
@@ -71,18 +75,18 @@ watch(() => route.params.category, () => showNav.value = false)
             </div>
           </button>
 
-          <RouterLink v-show="store.signedIn" to="/favorites"
+          <RouterLink v-show="authStore.isAuth" to="/favorites"
             class="flex items-center gap-2 hover:text-slate-400 transition">
             <i class="bi bi-heart text-xl sm:text-base"></i>
             <span class="hidden sm:block text-sm">Избранное</span>
           </RouterLink>
 
-          <button @click="store.drawerToggle" class="flex items-center gap-2 hover:text-slate-400 transition">
+          <button @click="drawerStore.toggle" class="flex items-center gap-2 hover:text-slate-400 transition">
             <div class="relative">
               <i class="bi bi-bag text-xl sm:text-base"></i>
-              <span v-show="store.cart.length > 0"
+              <span v-show="cartStore.cart.length > 0"
                 class="absolute -top-1  sm:-top-2 -right-2 z-10 text-xs text-center bg-orange-500 text-white w-4 h-4 rounded-xl">
-                {{ store.cart.length }}
+                {{ cartStore.cart.length }}
               </span>
             </div>
             <span class="hidden sm:block text-sm">Корзина</span>

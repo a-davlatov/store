@@ -5,32 +5,37 @@ import { onMounted, watch } from 'vue'
 import TheHeader from './TheHeader.vue'
 import TheFooter from './TheFooter.vue'
 import TheDrawer from '../drawer/TheDrawer.vue'
-import { store } from '../../composables/store.js'
 import { authUser } from '../../api/user.js'
 import { useRefreshIsAddedValue } from '../../composables/useRefreshIsAddedValue.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
+import { useCartStore } from '@/store/cartStore.js'
+
+const cartStore = useCartStore()
+const drawerStore = useDrawerStore()
+const authStore = useAuthStore()
 
 onMounted(() => {
   const localCart = localStorage.getItem('cart')
-  store.cart = localCart ? JSON.parse(localCart) : []
+  cartStore.cart = localCart ? JSON.parse(localCart) : []
 
-  if (localStorage.getItem('userData')) {
-    store.userData = JSON.parse(localStorage.getItem('userData'))
-    store.signedIn = true
+  if (localStorage.getItem('user_data')) {
+    const userData = JSON.parse(localStorage.getItem('user_data'))
+    authStore.set(userData)
     
     try {
       authUser()
     } catch (error) {
-      store.userData = null
-      store.signedIn = false
-      localStorage.removeItem('userData')
+      authStore.clear()
+      localStorage.removeItem('user_data')
       console.error('Unauthorized: ', error.message)
     }
   }
   
 })
 
-watch(() => store.cart, () => {
-  localStorage.setItem('cart', JSON.stringify(store.cart))
+watch(() => cartStore.cart, () => {
+  localStorage.setItem('cart', JSON.stringify(cartStore.cart))
   useRefreshIsAddedValue()
 },
 { deep: true })
@@ -39,7 +44,7 @@ watch(() => store.cart, () => {
 
 <template>
 
-  <TheHeader :signed-in="store.signedIn" />
+  <TheHeader />
 
   <main class="flex-auto">
     <RouterView />
@@ -47,6 +52,6 @@ watch(() => store.cart, () => {
 
   <TheFooter />
 
-  <TheDrawer v-if="store.drawerOpen" />
+  <TheDrawer v-if="drawerStore.isOpen" />
 
 </template>

@@ -4,13 +4,17 @@ import FiltersBrands from './FiltersBrands.vue'
 import FiltersSort from './FiltersSort.vue'
 import FiltersPrice from './FiltersPrice.vue'
 import { ref } from 'vue'
-import { store } from '../../composables/store.js'
+import { useFiltersStore } from '@/store/filtersStore.js'
+import { useProductsStore } from '@/store/productsStore'
 
-const rangeValues = ref([store.filters.price.from, store.filters.price.to])
+const productsStore = useProductsStore()
+const filtersStore = useFiltersStore()
+
+const rangeValues = ref([filtersStore.price.from, filtersStore.price.to])
 const productsBrands = ref('')
 
 const getProductsBrands = () => {
-  const brands = store.products.map(item => item.brand)
+  const brands = productsStore.products.map(item => item.brand)
   const brandsUnique = brands.reduce(
     (acc, item) => (acc.set(item, (acc.get(item) || 0) + 1), acc),
     new Map()
@@ -32,7 +36,7 @@ const getProductsBrands = () => {
     />
 
     <FiltersBrands
-      v-if="store.filters.searchQuery === ''"
+      v-if="filtersStore.searchQuery === ''"
       :get-products-brands="getProductsBrands"
       v-model:range-values="rangeValues"
       v-model:products-brands="productsBrands"
