@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted, watch, provide, computed } from 'vue'
+import { ref, onMounted, watch, provide } from 'vue'
 import { useRoute } from 'vue-router'
 
-import ProductCard from '../components/ProductCard.vue'
 import FiltersBlock from '../components/filters/FiltersBlock.vue'
+import ProductCard from '../components/ProductCard.vue'
 
 import { useAddToCart } from '../composables/useAddToCart.js'
 import { useAddToFavorites } from '../composables/useAddToFavorites.js'
@@ -25,9 +25,6 @@ const route = useRoute()
 productsStore.clear()
 
 const searchTitle = ref('')
-const ProductsMinPrice = computed(() => Math.min(...productsStore.products.map(item => item.price)))
-const ProductsMaxPrice = computed(() => Math.max(...productsStore.products.map(item => item.price)))
-
 let params = {}
 
 const fetchProducts = async (from, to, checkedBrands) => {
@@ -70,26 +67,20 @@ provide('fetchProducts', fetchProducts)
 
 onMounted( async () => {
   await fetchProducts()
-
-  filtersStore.price.from = ProductsMinPrice.value
-  filtersStore.price.to = ProductsMaxPrice.value
+  filtersStore.resetPriceFilters()
 })
 
 watch(() => route.params.category, async () => {
   params = {}
   await fetchProducts()
-
-  filtersStore.price.from = ProductsMinPrice.value
-  filtersStore.price.to = ProductsMaxPrice.value
+  filtersStore.resetPriceFilters()
 })
 
 watch(() => route.query.title, async () => {
   if (!route.params.category) {
     params = {}
     await fetchProducts()
-    
-    filtersStore.price.from = ProductsMinPrice.value
-    filtersStore.price.to = ProductsMaxPrice.value
+    filtersStore.resetPriceFilters()
   }
 })
 
@@ -107,7 +98,7 @@ watch(() => route.query.title, async () => {
 
         <div class="grid col-span-1 sm:col-span-5 lg:col-span-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-1 -mx-2 h-max">
 
-          <ProductCard 
+          <ProductCard
             v-for="product in productsStore.products" 
             :key="product.id"
             :title="product.title" 
