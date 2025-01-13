@@ -14,8 +14,8 @@ defineProps({
     <div class="p-3 flex flex-col sm:flex-row sm:items-center sm:col-span-1 col-span-2 gap-3">
       <div class="w-16 h-16">
         <img 
-          class="w-full h-full" 
-          :src="imageUrl" 
+          class="w-full h-full"
+          v-lazy="{ src: imageUrl }"
           :alt="title"
         >
       </div>

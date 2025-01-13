@@ -46,25 +46,25 @@ onMounted( async () => {
     >
       <swiper-slide>
         <div class="relative max-h-full">
-          <img class="w-full h-full" src="/hoodies/main.jpg" alt="hoodies">
+          <img class="w-full h-full" v-lazy="{ src: './hoodies/main.jpg' }" alt="hoodies">
           <RouterLink class="text-xs sm:text-base absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition" to="/products/hoodies">Перейти в каталог</RouterLink>
         </div>
       </swiper-slide>
       <swiper-slide>
         <div class="relative max-h-full">
-          <img class="w-full max-h-full" src="/sneakers/main.jpg" alt="sneakers">
+          <img class="w-full max-h-full" v-lazy="{ src: './sneakers/main.jpg' }" alt="sneakers">
           <RouterLink class="absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition" to="/products/sneakers">Перейти в каталог</RouterLink>
         </div>
       </swiper-slide>
       <swiper-slide>
         <div class="relative max-h-full">
-          <img class="w-full max-h-full" src="/caps/main.jpg" alt="caps">
+          <img class="w-full max-h-full" v-lazy="{ src: './caps/main.jpg' }" alt="caps">
           <RouterLink class="absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition" to="/products/caps">Перейти в каталог</RouterLink>
         </div>
       </swiper-slide>
       <swiper-slide>
         <div class="relative max-h-full">
-          <img class="w-full max-h-full" src="/panamas/main.jpg" alt="panamas">
+          <img class="w-full max-h-full" v-lazy="{ src: './panamas/main.jpg' }" alt="panamas">
           <RouterLink class="absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition" to="/products/panamas">Перейти в каталог</RouterLink>
         </div>
       </swiper-slide>
@@ -80,7 +80,7 @@ onMounted( async () => {
       :loop="true"
       :autoplay="{ delay: 5000 }"
       :breakpoints="{
-        450: {
+        300: {
           slidesPerView: 2,
         },
         640: {

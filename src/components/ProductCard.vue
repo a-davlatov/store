@@ -17,8 +17,8 @@ defineProps({
 <template>
   <div class="product__card relative sm:hover:shadow-2xl p-2 transition">
     <div class="product__card-img">
-      <img 
-        :src="imageUrl" 
+      <img
+        v-lazy="{ src: imageUrl }"
         :alt="title"
       >
       <div

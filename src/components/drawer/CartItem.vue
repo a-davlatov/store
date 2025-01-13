@@ -14,7 +14,7 @@ defineProps({
     <div class="w-20 h-24">
       <img 
         class="product-img" 
-        :src="imageUrl" 
+        v-lazy="{ src: imageUrl }"
         :alt="title"
       >
     </div>
