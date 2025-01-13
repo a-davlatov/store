@@ -26,6 +26,7 @@ productsStore.clear()
 
 const searchTitle = ref('')
 let params = {}
+const ucFirst = (str) => str[0].toUpperCase() + str.slice(1)
 
 const fetchProducts = async (from, to, checkedBrands) => {
   try {
@@ -89,8 +90,13 @@ watch(() => route.query.title, async () => {
 <template>
   <div class="mt-10">
     <div class="container">
-      <h1 class="text-2xl font-bold mb-5">
-        {{ filtersStore.searchQuery !== '' ? searchTitle : route.params.category }}
+      <h1 class="text-2xl font-bold mb-5 flex items-center justify-between gap-3">
+        <span>{{ filtersStore.searchQuery !== '' ? searchTitle : ucFirst(route.params.category) }}</span>
+        <div class="sm:hidden text-base flex items-center gap-1.5 font-medium justify-end" @click="filtersStore.toggle">
+          <span>Filter</span>
+          <i class="bi bi-filter-square" v-if="!filtersStore.isVisible"></i>
+          <i class="bi bi-filter-square-fill" v-else></i>
+        </div>
       </h1>
 
       <div class="grid grid-cols-1 sm:grid-cols-8 gap-5">

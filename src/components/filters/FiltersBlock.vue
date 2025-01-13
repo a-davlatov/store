@@ -25,8 +25,7 @@ const getProductsBrands = () => {
 </script>
 
 <template>
-  <div class="col-span-1 sm:col-span-3 lg:col-span-2">
-
+  <div :class="{'show-filters': filtersStore.isVisible}" class="col-span-1 sm:col-span-3 lg:col-span-2 filters">
     <FiltersSort />
 
     <FiltersPrice 
@@ -41,6 +40,16 @@ const getProductsBrands = () => {
       v-model:range-values="rangeValues"
       v-model:products-brands="productsBrands"
     />
-
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 640px) {
+  .filters {
+    display: none;
+  }
+  .filters.show-filters {
+    display: block;
+  }
+}
+</style>
