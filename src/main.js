@@ -12,5 +12,9 @@ const app = createApp(App)
 
 app.use(pinia)
 app.use(router)
-app.use(VueLazyLoad)
+app.use(VueLazyLoad, {
+  loading: '/store/preloader.gif',
+  error: '/store/error.png',
+  delay: 500
+})
 app.mount('#app')

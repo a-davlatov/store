@@ -15,20 +15,20 @@ defineProps({
 </script>
 
 <template>
-  <div class="product__card relative sm:hover:shadow-2xl p-2 transition">
-    <div class="product__card-img">
+  <div class="product__card relative sm:hover:shadow-2xl p-2 h-full transition flex flex-col">
+    <div class="product__card-img w-full">
       <img
         v-lazy="{ src: imageUrl }"
         :alt="title"
       >
       <div
         v-if="oldPrice"
-        class="absolute top-0 left-0 bg-orange-500 p-2 rounded-full text-white font-medium"
+        class="absolute top-0 left-0 bg-orange-500 p-1.5 sm:p-2 rounded-full text-sm text-white font-medium"
       >
         Sale
       </div>
       <button 
-        class="icon-heart absolute top-5 right-5 hover:text-orange-400 transition text-xl"
+        class="icon-heart absolute top-5 right-5 hover:text-orange-400 transition sm:text-xl"
         @click="isFavorite ? $emit('removeFromFavorites') : $emit('addToFavorites')"
       >
         <i :class="!isFavorite ? 'bi bi-heart' : 'bi bi-heart-fill text-red-500'"></i>
@@ -44,11 +44,11 @@ defineProps({
     <div class="flex items-end gap-2">
     <div 
       v-if="oldPrice" 
-      class="text-base text-slate-400 my-1 line-through"
+      class="text-sm sm:text-base text-slate-400 my-1 line-through"
     >
       {{ oldPrice }} ₽
     </div>
-    <div class="text-lg font-bold my-1">{{ price }} ₽</div>
+    <div class="sm:text-lg font-bold my-1">{{ price }} ₽</div>
     </div>
     <div class="text-sm flex-1">{{ title }}</div>
     <div class="mt-2 opacity-0 add-to-cart absolute z-20 bg-white start-0 end-0 p-2 transition">
@@ -63,12 +63,6 @@ defineProps({
 </template>
 
 <style scoped>
-  .product__card-img img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-
   .product__card .add-to-cart {
     top: 97%;
     visibility: hidden;
@@ -98,10 +92,6 @@ defineProps({
   }
 
   @media (max-width: 640px) {
-    .product__card {
-      display: flex;
-      flex-direction: column;
-    }
     .product__card .add-to-cart {
       padding: 0;
       position: static;
