@@ -1,10 +1,11 @@
 <script setup>
 
-import { ref, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { MENU_DATA } from '@/constants/menu.data'
 import { useAuthStore } from '@/store/authStore.js'
-import { useDrawerStore } from '@/store/drawerStore.js'
 import { useCartStore } from '@/store/cartStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import TheBurger from '../TheBurger.vue'
 import TheSearch from '../TheSearch.vue'
@@ -31,17 +32,23 @@ watch(() => route.params.category, () => showNav.value = false)
   <header :class="{ 'show-nav': showNav }">
     <div class="container">
       <div class="flex py-5 items-center justify-between">
-        <RouterLink to="/" class="sm:text-3xl text-2xl font-bold logo">vue moda</RouterLink>
+        <RouterLink
+          to="/"
+          class="sm:text-3xl text-2xl font-bold logo"
+        >vue moda</RouterLink>
         <div class="flex items-center gap-5">
-          <RouterLink v-if="!authStore.isAuth" to="/login"
-            class="py-1 px-5 border border-black rounded hover:bg-black hover:text-white transition login">
+          <RouterLink
+            v-if="!authStore.isAuth"
+            to="/login"
+            class="py-1 px-5 border border-black rounded hover:bg-black hover:text-white transition login"
+          >
             Войти
           </RouterLink>
-          <button 
-            v-else 
+          <button
+            v-else
             type="button"
             class="relative flex items-center gap-2 hover:text-slate-400 transition profile-btn"
-            >
+          >
             <i class="bi bi-person-circle text-xl sm:text-base"></i>
             <span class="hidden sm:block text-sm">Профиль</span>
 
@@ -59,15 +66,25 @@ watch(() => route.params.category, () => showNav.value = false)
                 </div>
                 <ul class="list-reset py-3 border-t border-gray-200">
                   <li>
-                    <RouterLink to="/orders" class="px-3 py-1 block text-left hover:bg-gray-100 hover:text-slate-400 transition">
+                    <RouterLink
+                      to="/orders"
+                      class="px-3 py-1 block text-left hover:bg-gray-100 hover:text-slate-400 transition"
+                    >
                       Заказы</RouterLink>
                   </li>
                   <li>
-                    <RouterLink to="/profile" class="px-3 py-1 block text-left hover:bg-gray-100 hover:text-slate-400 transition">
+                    <RouterLink
+                      to="/profile"
+                      class="px-3 py-1 block text-left hover:bg-gray-100 hover:text-slate-400 transition"
+                    >
                       Мои данные</RouterLink>
                   </li>
                   <li>
-                    <button type="button" @click="logout" class="w-full text-left px-3 py-1 block hover:bg-gray-100 hover:text-slate-400 transition">
+                    <button
+                      type="button"
+                      @click="logout"
+                      class="w-full text-left px-3 py-1 block hover:bg-gray-100 hover:text-slate-400 transition"
+                    >
                       Выйти</button>
                   </li>
                 </ul>
@@ -75,17 +92,25 @@ watch(() => route.params.category, () => showNav.value = false)
             </div>
           </button>
 
-          <RouterLink v-show="authStore.isAuth" to="/favorites"
-            class="flex items-center gap-2 hover:text-slate-400 transition">
+          <RouterLink
+            v-show="authStore.isAuth"
+            to="/favorites"
+            class="flex items-center gap-2 hover:text-slate-400 transition"
+          >
             <i class="bi bi-heart text-xl sm:text-base"></i>
             <span class="hidden sm:block text-sm">Избранное</span>
           </RouterLink>
 
-          <button @click="drawerStore.toggle" class="flex items-center gap-2 hover:text-slate-400 transition">
+          <button
+            @click="drawerStore.toggle"
+            class="flex items-center gap-2 hover:text-slate-400 transition"
+          >
             <div class="relative">
               <i class="bi bi-bag text-xl sm:text-base"></i>
-              <span v-show="cartStore.cart.length > 0"
-                class="absolute -top-1  sm:-top-2 -right-2 z-10 text-xs text-center bg-orange-500 text-white w-4 h-4 rounded-xl">
+              <span
+                v-show="cartStore.cart.length > 0"
+                class="absolute -top-1  sm:-top-2 -right-2 z-10 text-xs text-center bg-orange-500 text-white w-4 h-4 rounded-xl"
+              >
                 {{ cartStore.cart.length }}
               </span>
             </div>
@@ -97,17 +122,12 @@ watch(() => route.params.category, () => showNav.value = false)
         <TheBurger v-model="showNav" />
         <nav class="absolute hidden sm:block sm:static top-16 -left-2 -right-3 z-10 bg-white ps-2 pb-3 sm:pb-0 sm:ps-0">
           <ul class="flex flex-col sm:flex-row gap-6 flex-wrap">
-            <li class="text-black hover:text-slate-400 cursor-pointer transition">
-              <RouterLink to="/products/hoodies">Худи и свитшоты</RouterLink>
-            </li>
-            <li class="text-black hover:text-slate-400 cursor-pointer transition">
-              <RouterLink to="/products/sneakers">Кроссовки</RouterLink>
-            </li>
-            <li class="text-black hover:text-slate-400 cursor-pointer transition">
-              <RouterLink to="/products/caps">Бейсболки</RouterLink>
-            </li>
-            <li class="text-black hover:text-slate-400 cursor-pointer transition">
-              <RouterLink to="/products/panamas">Панамы</RouterLink>
+            <li
+              class="text-black hover:text-slate-400 cursor-pointer transition"
+              v-for="item in MENU_DATA"
+              :key="item.name"
+            >
+              <RouterLink :to="item.url">{{ item.name }}</RouterLink>
             </li>
           </ul>
         </nav>

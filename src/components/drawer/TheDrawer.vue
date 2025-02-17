@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import DrawerHead from './DrawerHead.vue'
-import CartItem from './CartItem.vue'
+import DrawerItem from './DrawerItem.vue'
 import DrawerInfoBlock from './DrawerInfoBlock.vue'
 import { postOrder } from '../../api/order.js'
 import { useAuthStore } from '@/store/authStore.js'
@@ -63,7 +63,7 @@ const createOrder = async () => {
         v-show="cartStore.cart.length > 0" 
         class="cart-items overflow-auto flex flex-1 flex-col gap-3"
       >
-        <CartItem 
+        <DrawerItem 
           v-for="item in cartStore.cart"
           :key="item.id"
           :image-url="item.imageUrl"

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 
-import ProductCard from '../components/ProductCard.vue'
+import ProductCard from '../components/products/ProductCard.vue'
 import EmptyInfoBlock from '../components/EmptyInfoBlock.vue'
 
 import { useAddToCart } from '../composables/useAddToCart.js'
