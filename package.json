@@ -19,6 +19,7 @@
     "lodash.debounce": "^4.0.8",
     "pinia": "^2.3.0",
     "swiper": "^11.1.4",
+    "three": "^0.173.0",
     "vue": "^3.4.15",
     "vue-router": "^4.3.0",
     "vue3-lazyload": "^0.3.8"
