@@ -2,15 +2,15 @@
 import { ref, onMounted, watch, provide } from 'vue'
 import { useRoute } from 'vue-router'
 
-import FiltersBlock from '../components/filters/FiltersBlock.vue'
-import ProductCard from '../components/ProductCard.vue'
+import FiltersBlock from '@/components/filters/FiltersBlock.vue'
+import ProductCard from './ProductCard.vue'
 
-import { useAddToCart } from '../composables/useAddToCart.js'
-import { useAddToFavorites } from '../composables/useAddToFavorites.js'
-import { useRemoveFromFavorites } from '../composables/useRemoveFromFavorites.js'
-import { useRefreshIsAddedValue } from '../composables/useRefreshIsAddedValue.js'
-import { useFetchFavorites } from '../composables/useFetchFavorites.js'
-import { getProducts } from '../api/products.js'
+import { useAddToCart } from '../../composables/useAddToCart.js'
+import { useAddToFavorites } from '../../composables/useAddToFavorites.js'
+import { useRemoveFromFavorites } from '../../composables/useRemoveFromFavorites.js'
+import { useRefreshIsAddedValue } from '../../composables/useRefreshIsAddedValue.js'
+import { useFetchFavorites } from '../../composables/useFetchFavorites.js'
+import { getProducts } from '../../api/products.js'
 import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 import { useFiltersStore } from '@/store/filtersStore.js'
 import { useCartStore } from '@/store/cartStore.js'
@@ -26,7 +26,7 @@ productsStore.clear()
 
 const searchTitle = ref('')
 let params = {}
-const ucFirst = (str) => str[0].toUpperCase() + str.slice(1)
+const ucFirst = (str) => str ? str[0].toUpperCase() + str.slice(1) : ''
 
 const fetchProducts = async (from, to, checkedBrands) => {
   try {

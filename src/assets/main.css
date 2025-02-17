@@ -29,3 +29,11 @@ img {
   height: auto;
   object-fit: cover;
 }
+
+.swiper__wrapper {
+  align-items: stretch;
+}
+
+.swiper-slide {
+  height: auto;
+}
