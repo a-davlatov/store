@@ -117,7 +117,7 @@ onUnmounted(() => window.removeEventListener('resize', onWindowResize))
 					class="relative order-1 md:order-2 overflow-hidden"
 				>
 					<img
-						src="/store/preloader.gif"
+						src="/preloader.gif"
 						alt="Preloader"
 						class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
 						v-show="loadingStore.loading"

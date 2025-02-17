@@ -1,14 +1,15 @@
 <script setup>
 import 'swiper/css'
 import { Autoplay } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptSetup.vue */
+
 </script>
 
 <template>
 	<div class="mt-5">
 		<div class="container">
 			<swiper
-				class="swiper-intro mt-5"
+				class="swiper-intro"
 				:slides-per-view="1"
 				:space-between="20"
 				:loop="true"

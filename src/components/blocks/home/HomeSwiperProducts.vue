@@ -6,14 +6,14 @@ import { onMounted } from 'vue'
 
 import ProductCard from '@/components/products/ProductCard.vue'
 
-import { useCartStore } from '@/store/cartStore.js'
-import { useProductsStore } from '@/store/productsStore'
 import { getSaleProducts } from '@/api/products.js'
 import { useAddToCart } from '@/composables/useAddToCart.js'
 import { useAddToFavorites } from '@/composables/useAddToFavorites.js'
 import { useFetchFavorites } from '@/composables/useFetchFavorites.js'
 import { useRefreshIsAddedValue } from '@/composables/useRefreshIsAddedValue.js'
 import { useRemoveFromFavorites } from '@/composables/useRemoveFromFavorites.js'
+import { useCartStore } from '@/store/cartStore.js'
+import { useProductsStore } from '@/store/productsStore'
 
 const productsStore = useProductsStore()
 const cartStore = useCartStore()
@@ -40,7 +40,7 @@ onMounted(async () => {
 				class="swiper-sales mt-3 sm:mt-4"
 				v-if="productsStore.products.length > 0"
 				:slides-per-view="1"
-				:space-between="5"
+				:space-between="0"
 				:loop="true"
 				:autoplay="{ delay: 5000 }"
 				:breakpoints="{
@@ -49,6 +49,7 @@ onMounted(async () => {
 					},
 					640: {
 						slidesPerView: 3,
+						spaceBetween: 5,
 					},
 					760: {
 						slidesPerView: 4,
@@ -79,15 +80,3 @@ onMounted(async () => {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.swiper-sales .product__card .add-to-cart {
-  position: static;
-  padding-right: 0;
-  padding-left: 0;
-}
-
-.swiper-sales .product__card:hover {
-  box-shadow: none;
-}
-</style>
