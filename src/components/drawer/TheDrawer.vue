@@ -1,12 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue'
-import DrawerHead from './DrawerHead.vue'
-import DrawerItem from './DrawerItem.vue'
-import DrawerInfoBlock from './DrawerInfoBlock.vue'
-import { postOrder } from '../../api/order.js'
 import { useAuthStore } from '@/store/authStore.js'
-import { useDrawerStore } from '@/store/drawerStore.js'
 import { useCartStore } from '@/store/cartStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
+import { computed, ref } from 'vue'
+import { postOrder } from '../../api/order.js'
+import DrawerHead from './DrawerHead.vue'
+import DrawerInfoBlock from './DrawerInfoBlock.vue'
+import DrawerItem from './DrawerItem.vue'
 
 const cartStore = useCartStore()
 const drawerStore = useDrawerStore()
@@ -108,13 +108,13 @@ const createOrder = async () => {
           v-if="!totalPrice && !orderCreated"
           title="Корзина пустая"
           description="Добавьте хотя бы один товар, чтобы сделать заказ."
-          image-url="/store/empty.avif"
+          image-url="/empty.avif"
         />
         <DrawerInfoBlock
           v-if="orderCreated"
           title="Заказ оформлен!"
           :description="`Ваш заказ №${orderCreated}, скоро будет передан курьерской доставке`"
-          image-url="/store/order-success-icon.png"
+          image-url="/order-success-icon.png"
         />
       </div>
 

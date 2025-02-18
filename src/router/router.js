@@ -1,4 +1,4 @@
-import { createWebHistory , createRouter } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: '/', component: () => import('../pages/HomeView.vue') },
@@ -12,6 +12,6 @@ const routes = [
 ]
 
 export const router = createRouter({
-  history: createWebHistory ('/store'),
+  history: createWebHistory (),
   routes
 })

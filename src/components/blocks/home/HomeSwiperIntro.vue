@@ -20,7 +20,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 					<div class="relative h-full flex items-center justify-center">
 						<img
 							class="w-full"
-							v-lazy="{ src: './hoodies/main.jpg', loading: '/store/hoodies/main.jpg' }"
+							src="/hoodies/main.jpg"
 							alt="hoodies"
 						>
 						<RouterLink
@@ -33,7 +33,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 					<div class="relative h-full flex items-center justify-center">
 						<img
 							class="w-full"
-							v-lazy="{ src: './sneakers/main.jpg', loading: '/store/preloader_sm.gif' }"
+							v-lazy="{ src: '/sneakers/main.jpg', loading: '/preloader_sm.gif' }"
 							alt="sneakers"
 						>
 						<RouterLink
@@ -46,7 +46,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 					<div class="relative h-full flex items-center justify-center">
 						<img
 							class="w-full"
-							v-lazy="{ src: './caps/main.jpg', loading: '/store/preloader_sm.gif' }"
+							v-lazy="{ src: '/caps/main.jpg', loading: '/preloader_sm.gif' }"
 							alt="caps"
 						>
 						<RouterLink
@@ -59,7 +59,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 					<div class="relative h-full flex items-center justify-center">
 						<img
 							class="w-full"
-							v-lazy="{ src: './panamas/main.jpg', loading: '/store/preloader_sm.gif' }"
+							v-lazy="{ src: '/panamas/main.jpg', loading: '/preloader_sm.gif' }"
 							alt="panamas"
 						>
 						<RouterLink
