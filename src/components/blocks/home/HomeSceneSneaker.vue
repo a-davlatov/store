@@ -37,7 +37,7 @@ let model = null
 let renderer = null
 
 loader.load(
-	'/nike/source/nike_sko_apply_all.gltf',
+	'https://3d-model.davlatovamriddin7.workers.dev/nike/source/nike_sko_apply_all.gltf',
 	(gltf) => {
 		loadingStore.loading = false
 		model = gltf.scene
