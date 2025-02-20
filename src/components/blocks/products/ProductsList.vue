@@ -1,19 +1,19 @@
 <script setup>
-import { ref, onMounted, watch, provide } from 'vue'
+import { onMounted, provide, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-import FiltersBlock from '@/components/filters/FiltersBlock.vue'
+import FiltersBlock from '@/components/blocks/filters/FiltersBlock.vue'
 import ProductCard from './ProductCard.vue'
 
-import { useAddToCart } from '../../composables/useAddToCart.js'
-import { useAddToFavorites } from '../../composables/useAddToFavorites.js'
-import { useRemoveFromFavorites } from '../../composables/useRemoveFromFavorites.js'
-import { useRefreshIsAddedValue } from '../../composables/useRefreshIsAddedValue.js'
-import { useFetchFavorites } from '../../composables/useFetchFavorites.js'
-import { getProducts } from '../../api/products.js'
-import { useIsLoadingStore } from '@/store/isLoadingStore.js'
-import { useFiltersStore } from '@/store/filtersStore.js'
+import { getProducts } from '@/api/products.js'
+import { useAddToCart } from '@/composables/useAddToCart.js'
+import { useAddToFavorites } from '@/composables/useAddToFavorites.js'
+import { useFetchFavorites } from '@/composables/useFetchFavorites.js'
+import { useRefreshIsAddedValue } from '@/composables/useRefreshIsAddedValue.js'
+import { useRemoveFromFavorites } from '@/composables/useRemoveFromFavorites.js'
 import { useCartStore } from '@/store/cartStore.js'
+import { useFiltersStore } from '@/store/filtersStore.js'
+import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 import { useProductsStore } from '@/store/productsStore'
 
 const productsStore = useProductsStore()
@@ -25,10 +25,10 @@ const route = useRoute()
 productsStore.clear()
 
 const searchTitle = ref('')
-let params = {}
 const ucFirst = (str) => str ? str[0].toUpperCase() + str.slice(1) : ''
 
 const fetchProducts = async (from, to, checkedBrands) => {
+  const params = {}
   try {
     loadingStore.loading = true
     params.sortBy = filtersStore.sortBy
@@ -64,27 +64,19 @@ const fetchProducts = async (from, to, checkedBrands) => {
   }
 }
 
+const getGoods = async () => {
+  await fetchProducts()
+  filtersStore.resetPriceFilters()
+}
+
+onMounted( () => getGoods())
+watch(() => route.params.category, getGoods)
+
+watch(() => route.query.title, () => {
+  if (!route.params.category) getGoods()
+})
+
 provide('fetchProducts', fetchProducts)
-
-onMounted( async () => {
-  await fetchProducts()
-  filtersStore.resetPriceFilters()
-})
-
-watch(() => route.params.category, async () => {
-  params = {}
-  await fetchProducts()
-  filtersStore.resetPriceFilters()
-})
-
-watch(() => route.query.title, async () => {
-  if (!route.params.category) {
-    params = {}
-    await fetchProducts()
-    filtersStore.resetPriceFilters()
-  }
-})
-
 </script>
 
 <template>

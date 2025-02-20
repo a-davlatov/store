@@ -4,7 +4,7 @@ import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { onMounted } from 'vue'
 
-import ProductCard from '@/components/products/ProductCard.vue'
+import ProductCard from '@/components/blocks/products/ProductCard.vue'
 
 import { getSaleProducts } from '@/api/products.js'
 import { useAddToCart } from '@/composables/useAddToCart.js'

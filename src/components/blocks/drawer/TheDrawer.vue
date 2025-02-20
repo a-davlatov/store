@@ -1,9 +1,9 @@
 <script setup>
+import { postOrder } from '@/api/order.js'
 import { useAuthStore } from '@/store/authStore.js'
 import { useCartStore } from '@/store/cartStore.js'
 import { useDrawerStore } from '@/store/drawerStore.js'
 import { computed, ref } from 'vue'
-import { postOrder } from '../../api/order.js'
 import DrawerHead from './DrawerHead.vue'
 import DrawerInfoBlock from './DrawerInfoBlock.vue'
 import DrawerItem from './DrawerItem.vue'

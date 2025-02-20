@@ -1,28 +1,18 @@
 <script setup>
 
-import { MENU_DATA } from '@/constants/menu.data'
 import { useAuthStore } from '@/store/authStore.js'
-import { useCartStore } from '@/store/cartStore.js'
-import { useDrawerStore } from '@/store/drawerStore.js'
 import { ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
-import TheBurger from '../TheBurger.vue'
-import TheSearch from '../TheSearch.vue'
+import HeaderBurger from '../blocks/header/HeaderBurger.vue'
+import HeaderCartBtn from '../blocks/header/HeaderCartBtn.vue'
+import HeaderMenu from '../blocks/header/HeaderMenu.vue'
+import HeaderProfileBtn from '../blocks/header/HeaderProfileBtn.vue'
+import HeaderSearch from '../blocks/header/HeaderSearch.vue'
 
 const route = useRoute()
-const router = useRouter()
 const authStore = useAuthStore()
-const cartStore = useCartStore()
-
 const showNav = ref(false)
-const drawerStore = useDrawerStore()
-
-const logout = () => {
-  authStore.clear()
-  router.push('/login')
-  localStorage.removeItem('user_data')
-}
 
 watch(() => route.params.category, () => showNav.value = false)
 
@@ -44,53 +34,7 @@ watch(() => route.params.category, () => showNav.value = false)
           >
             Войти
           </RouterLink>
-          <button
-            v-else
-            type="button"
-            class="relative flex items-center gap-2 hover:text-slate-400 transition profile-btn"
-          >
-            <i class="bi bi-person-circle text-xl sm:text-base"></i>
-            <span class="hidden sm:block text-sm">Профиль</span>
-
-            <div class="pt-10 absolute top-0 -right-16 z-20 profile-item invisible opacity-0 transition min-w-64">
-              <div class="bg-white">
-                <div class="flex items-center gap-2 p-3 profile-head">
-                  <div class="w-10 h-10 rounded-2xl bg-sky-200 flex items-center justify-center">
-                    <span class="text-2xl text-white">{{ authStore.data.name[0] }}</span>
-                  </div>
-                  <div>
-                    <div class="text-left text-base whitespace-nowrap">{{ authStore.data.name + ' ' +
-                      authStore.data.surname }}</div>
-                    <div class="text-left text-xs text-slate-500">{{ authStore.data.email }}</div>
-                  </div>
-                </div>
-                <ul class="list-reset py-3 border-t border-gray-200">
-                  <li>
-                    <RouterLink
-                      to="/orders"
-                      class="px-3 py-1 block text-left hover:bg-gray-100 hover:text-slate-400 transition"
-                    >
-                      Заказы</RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink
-                      to="/profile"
-                      class="px-3 py-1 block text-left hover:bg-gray-100 hover:text-slate-400 transition"
-                    >
-                      Мои данные</RouterLink>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                      @click="logout"
-                      class="w-full text-left px-3 py-1 block hover:bg-gray-100 hover:text-slate-400 transition"
-                    >
-                      Выйти</button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </button>
+          <HeaderProfileBtn v-else />
 
           <RouterLink
             v-show="authStore.isAuth"
@@ -101,38 +45,13 @@ watch(() => route.params.category, () => showNav.value = false)
             <span class="hidden sm:block text-sm">Избранное</span>
           </RouterLink>
 
-          <button
-            @click="drawerStore.toggle"
-            class="flex items-center gap-2 hover:text-slate-400 transition"
-          >
-            <div class="relative">
-              <i class="bi bi-bag text-xl sm:text-base"></i>
-              <span
-                v-show="cartStore.cart.length > 0"
-                class="absolute -top-1  sm:-top-2 -right-2 z-10 text-xs text-center bg-orange-500 text-white w-4 h-4 rounded-xl"
-              >
-                {{ cartStore.cart.length }}
-              </span>
-            </div>
-            <span class="hidden sm:block text-sm">Корзина</span>
-          </button>
+          <HeaderCartBtn />
         </div>
       </div>
       <div class="flex items-center flex-row-reverse sm:flex-row justify-between gap-3 pt-5 border-t relative">
-        <TheBurger v-model="showNav" />
-        <nav class="absolute hidden sm:block sm:static top-16 -left-2 -right-3 z-10 bg-white ps-2 pb-3 sm:pb-0 sm:ps-0">
-          <ul class="flex flex-col sm:flex-row gap-6 flex-wrap">
-            <li
-              class="text-black hover:text-slate-400 cursor-pointer transition"
-              v-for="item in MENU_DATA"
-              :key="item.name"
-            >
-              <RouterLink :to="item.url">{{ item.name }}</RouterLink>
-            </li>
-          </ul>
-        </nav>
-
-        <TheSearch />
+        <HeaderBurger v-model="showNav" />
+        <HeaderMenu />
+        <HeaderSearch />
       </div>
     </div>
   </header>
@@ -166,32 +85,7 @@ header.show-nav .burger::after {
   pointer-events: none;
 }
 
-footer .logo.router-link-active {
-  color: #fff;
-}
-
 .login.router-link-active:hover {
   color: #fff;
-}
-
-.profile-item>div {
-  box-shadow: 0 2px 8px #00000040;
-}
-
-.profile-btn:hover .profile-item {
-  visibility: visible;
-  opacity: 1;
-  color: initial;
-}
-
-.profile-head {
-  cursor: default;
-}
-
-@media (min-width: 640px) {
-  .profile-item {
-    left: -85px;
-    right: unset;
-  }
 }
 </style>

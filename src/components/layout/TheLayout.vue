@@ -2,14 +2,14 @@
 
 import { onMounted, watch } from 'vue'
 
-import TheHeader from './TheHeader.vue'
-import TheFooter from './TheFooter.vue'
-import TheDrawer from '../drawer/TheDrawer.vue'
-import { authUser } from '../../api/user.js'
-import { useRefreshIsAddedValue } from '../../composables/useRefreshIsAddedValue.js'
+import { authUser } from '@/api/user.js'
+import TheDrawer from '@/components/blocks/drawer/TheDrawer.vue'
+import { useRefreshIsAddedValue } from '@/composables/useRefreshIsAddedValue.js'
 import { useAuthStore } from '@/store/authStore.js'
-import { useDrawerStore } from '@/store/drawerStore.js'
 import { useCartStore } from '@/store/cartStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
+import TheFooter from './TheFooter.vue'
+import TheHeader from './TheHeader.vue'
 
 const cartStore = useCartStore()
 const drawerStore = useDrawerStore()

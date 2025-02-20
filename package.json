@@ -8,8 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "postinstall": "git lfs pull"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@vueform/slider": "^2.1.10",

@@ -1,11 +1,11 @@
 <script setup>
 
-import FiltersBrands from './FiltersBrands.vue'
-import FiltersSort from './FiltersSort.vue'
-import FiltersPrice from './FiltersPrice.vue'
-import { ref } from 'vue'
 import { useFiltersStore } from '@/store/filtersStore.js'
-import { useProductsStore } from '@/store/productsStore'
+import { useProductsStore } from '@/store/productsStore.js'
+import { ref } from 'vue'
+import FiltersBrands from './FiltersBrands.vue'
+import FiltersPrice from './FiltersPrice.vue'
+import FiltersSort from './FiltersSort.vue'
 
 const productsStore = useProductsStore()
 const filtersStore = useFiltersStore()

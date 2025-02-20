@@ -25,3 +25,9 @@ import { MENU_DATA } from '@/constants/menu.data'
     </div>
   </footer>
 </template>
+
+<style>
+footer .logo.router-link-active {
+  color: #fff;
+}
+</style>
