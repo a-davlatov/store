@@ -1,6 +1,5 @@
 <script setup>
 import { getOrders } from '@/api/order.js'
-import { useAuthStore } from '@/store/authStore.js'
 import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 import { onMounted, ref } from 'vue'
 
@@ -8,15 +7,10 @@ import OrderItem from '@/components/blocks/order/OrderItem.vue'
 import EmptyInfoBlock from '@/components/EmptyInfoBlock.vue'
 
 const loadingStore = useIsLoadingStore()
-const authStore = useAuthStore()
 
 const orders = ref([])
 
 onMounted( async () => {
-  if (!authStore.isAuth) {
-    return
-  }
-
   try {
     loadingStore.loading = true
     const { data } = await getOrders()
@@ -48,7 +42,6 @@ onMounted( async () => {
         :total-price="order.totalPrice"
         :order-items="order.items"
       />
-
     </div>
   </div>
 </template>

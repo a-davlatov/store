@@ -57,12 +57,10 @@ const patchUserData = async () => {
 }
 
 onMounted(() => {
-	if (authStore.isAuth) {
-		userData.name = authStore.data.name
-		userData.surname = authStore.data.surname
-		userData.email = authStore.data.email
-		userData.phone = authStore.data.phone
-	}
+	userData.name = authStore.data.name
+	userData.surname = authStore.data.surname
+	userData.email = authStore.data.email
+	userData.phone = authStore.data.phone
 })
 
 </script>
