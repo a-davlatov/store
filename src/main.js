@@ -14,7 +14,6 @@ app.use(pinia)
 app.use(router)
 app.use(VueLazyLoad, {
   loading: '/preloader.gif',
-  error: '/error.png',
-  delay: 500
+  error: '/error.png'
 })
 app.mount('#app')
