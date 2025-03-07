@@ -12,11 +12,11 @@ import { useAddToFavorites } from '@/composables/useAddToFavorites.js'
 import { useFetchFavorites } from '@/composables/useFetchFavorites.js'
 import { useRefreshIsAddedValue } from '@/composables/useRefreshIsAddedValue.js'
 import { useRemoveFromFavorites } from '@/composables/useRemoveFromFavorites.js'
-import { useCartStore } from '@/store/cartStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
 import { useProductsStore } from '@/store/productsStore'
 
+const drawerStore = useDrawerStore()
 const productsStore = useProductsStore()
-const cartStore = useCartStore()
 
 onMounted(async () => {
   productsStore.clear()
@@ -71,7 +71,7 @@ onMounted(async () => {
 						:image-url="product.imageUrl"
 						:is-added="product.isAdded"
 						:is-favorite="product.isFavorite"
-						@on-click-add="useAddToCart(product, cartStore.cart)"
+						@on-click-add="useAddToCart(product, drawerStore.cart)"
 						@add-to-favorites="useAddToFavorites(product)"
 						@remove-from-favorites="useRemoveFromFavorites(product)"
 					/>

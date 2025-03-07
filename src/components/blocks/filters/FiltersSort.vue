@@ -1,17 +1,18 @@
 <script setup>
-import { watch, inject } from 'vue'
 import { useFiltersStore } from '@/store/filtersStore.js'
+import { watch } from 'vue'
 
 const filtersStore = useFiltersStore()
-const fetchProducts = inject('fetchProducts')
+const props = defineProps(['rangeValues', 'checkedBrands'])
+const emit = defineEmits(['fetchProducts'])
 
 watch(() => filtersStore.sortBy, () => {
-  fetchProducts()
+  emit('fetchProducts', false, props.rangeValues[0], props.rangeValues[1], props.checkedBrands)
 })
 </script>
 
 <template>
-  <h2 class="text-xl mb-3 mt-2">Сортировка</h2>
+  <h2 class="text-xl mb-3 sm:mt-2 font-medium">Сортировка</h2>
 
   <input 
     class="hidden" 

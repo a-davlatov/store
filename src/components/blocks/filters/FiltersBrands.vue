@@ -1,54 +1,44 @@
 <script setup>
-
-import { ref, watch, inject, onMounted } from 'vue'
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 
 const loadingStore = useIsLoadingStore()
 const route = useRoute()
-const checkedBrands = ref([])
+const checkedBrands = defineModel('checkedBrands')
+const props = defineProps(['rangeValues', 'productsBrands'])
 
-const rangeValues = defineModel('rangeValues')
-const productsBrands = defineModel('productsBrands')
-const { getProductsBrands } = defineProps(['getProductsBrands'])
+const emit = defineEmits(['getProductsBrands', 'fetchProducts'])
 
-const fetchProducts = inject('fetchProducts')
 const changeBrands = () => {
   const timeout = setInterval(() => {
     if (loadingStore.loading === false) {
-      productsBrands.value = getProductsBrands()
+      emit('getProductsBrands')
       clearTimeout(timeout)
     }
   }, 300)
 }
 
-onMounted(() => {
-  productsBrands.value = getProductsBrands()
-  changeBrands()
-})
-
 watch(() => route.params.category, () => {
   checkedBrands.value = []
   changeBrands()
 })
-
 </script>
 
 <template>
-  <h2 class="text-xl mb-5 mt-8">Бренд</h2>
+  <h2 class="text-xl mb-3 sm:mb-5 mt-5 sm:mt-8 font-medium">Бренд</h2>
 
-  <div class="mt-4">
-    
-    <label 
+  <div class="mt-3 sm:mt-4">
+    <label
       class="flex gap-2 items-center cursor-pointer"
-      v-for="(brand, index) in productsBrands"
+      v-for="(brand, index) in props.productsBrands"
       :key="index"
     >
-      <input 
+      <input
         type="checkbox"
         :value="brand[0]"
         v-model="checkedBrands"
-        @change="fetchProducts(rangeValues[0], rangeValues[1], checkedBrands)"
+        @change="$emit('fetchProducts', false, props.rangeValues[0], props.rangeValues[1], props.checkedBrands)"
       >
       <div class="flex gap-1.5">
         <span>{{ brand[0] }}</span>

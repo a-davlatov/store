@@ -1,8 +1,8 @@
 <script setup>
-import { watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import debounce from 'lodash.debounce'
 import { useFiltersStore } from '@/store/filtersStore.js'
+import debounce from 'lodash.debounce'
+import { watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const filtersStore = useFiltersStore()
 

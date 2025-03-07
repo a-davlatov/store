@@ -1,53 +1,58 @@
 <script setup>
 import { postOrder } from '@/api/order.js'
+import { useRefreshIsAddedValue } from '@/composables/useRefreshIsAddedValue.js'
 import { useAuthStore } from '@/store/authStore.js'
-import { useCartStore } from '@/store/cartStore.js'
 import { useDrawerStore } from '@/store/drawerStore.js'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import DrawerHead from './DrawerHead.vue'
 import DrawerInfoBlock from './DrawerInfoBlock.vue'
 import DrawerItem from './DrawerItem.vue'
 
-const cartStore = useCartStore()
 const drawerStore = useDrawerStore()
 const authStore = useAuthStore()
 
-const totalPrice = computed(() => cartStore.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0))
-const orderCreated = ref(null)
+const totalPrice = computed(() => drawerStore.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0))
 const isOrderCreating = ref(false)
 
 const removeFromCart = (item) => {
-  cartStore.cart = cartStore.cart.filter((el) => el.id !== item.id)
+  drawerStore.cart = drawerStore.cart.filter((el) => el.id !== item.id)
 }
 
 const createOrder = async () => {
-  
-  if (!authStore.isAuth) {
-    return;
-  }
-
-  isOrderCreating.value = true
+  if (!authStore.isAuth) return
 
   const D = new Date()
   const formattedDate = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear()
 
   try {
+    isOrderCreating.value = true
     const orderData = {
-      items: cartStore.cart,
+      items: drawerStore.cart,
       totalPrice: totalPrice.value,
       user_id: authStore.data.id,
       order_date: formattedDate
     }
     
     const { data } = await postOrder(orderData)
-    cartStore.cart = []
-    orderCreated.value = data.id
+    drawerStore.cart = []
+    drawerStore.orderCreated = data.id
   } catch (error) {
     console.error('Error: ', error.message)
   } finally {
     isOrderCreating.value = false
   }
 }
+
+onMounted(() => {
+  const localCart = localStorage.getItem('cart')
+  if (localCart) drawerStore.cart = JSON.parse(localCart)
+})
+
+watch(() => drawerStore.cart, () => {
+  localStorage.setItem('cart', JSON.stringify(drawerStore.cart))
+  useRefreshIsAddedValue()
+},
+{ deep: true })
 
 </script>
 
@@ -60,11 +65,11 @@ const createOrder = async () => {
       <DrawerHead />
 
       <div 
-        v-show="cartStore.cart.length > 0" 
+        v-show="drawerStore.cart.length > 0" 
         class="cart-items overflow-auto flex flex-1 flex-col gap-3"
       >
         <DrawerItem 
-          v-for="item in cartStore.cart"
+          v-for="item in drawerStore.cart"
           :key="item.id"
           :image-url="item.imageUrl"
           :title="item.title"
@@ -75,7 +80,7 @@ const createOrder = async () => {
       </div>
 
       <div 
-        v-if="!authStore.isAuth && cartStore.cart.length > 0" 
+        v-if="!authStore.isAuth && drawerStore.cart.length > 0" 
         class="text-red-600 text-center mt-2"
       >
         Чтобы оформить заказ, нужно сначала <RouterLink class="underline hover:no-underline" to="/login">войти</RouterLink> на сайт.
@@ -96,24 +101,24 @@ const createOrder = async () => {
           :disabled="isOrderCreating || !authStore.isAuth"
           @click="createOrder"
         >
-          Оформить заказ
+          {{ isOrderCreating ? 'Загрузка...' : 'Оформить заказ' }}
         </button>
       </div>
 
       <div 
-        v-if="!totalPrice || orderCreated" 
+        v-if="!totalPrice || drawerStore.orderCreated" 
         class="flex h-full items-center"
       >
         <DrawerInfoBlock
-          v-if="!totalPrice && !orderCreated"
+          v-show="!totalPrice && !drawerStore.orderCreated"
           title="Корзина пустая"
           description="Добавьте хотя бы один товар, чтобы сделать заказ."
           image-url="/empty.avif"
         />
         <DrawerInfoBlock
-          v-if="orderCreated"
+          v-show="drawerStore.orderCreated"
           title="Заказ оформлен!"
-          :description="`Ваш заказ №${orderCreated}, скоро будет передан курьерской доставке`"
+          :description="`Ваш заказ №${drawerStore.orderCreated}, скоро будет передан курьерской доставке`"
           image-url="/order-success-icon.png"
         />
       </div>

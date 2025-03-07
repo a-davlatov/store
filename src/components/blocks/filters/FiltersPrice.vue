@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, inject } from 'vue'
+import { computed, watch } from 'vue'
 import Slider from '@vueform/slider'
 import "@vueform/slider/themes/default.css"
 import { useFiltersStore } from '@/store/filtersStore.js'
@@ -16,26 +16,20 @@ const rangeOptions = computed(() => ({
   }
 }))
 
+const props = defineProps(['checkedBrands'])
 const rangeValues = defineModel('rangeValues')
-const productsBrands = defineModel('productsBrands')
-const { getProductsBrands } = defineProps(['getProductsBrands'])
-const fetchProducts = inject('fetchProducts')
+const emit = defineEmits(['fetchProducts'])
 
-const onEndRange = async () => {
-  await fetchProducts(rangeValues.value[0], rangeValues.value[1])
-  productsBrands.value = getProductsBrands()
-}
+const onEndRange = () => emit('fetchProducts', true, rangeValues.value[0], rangeValues.value[1], props.checkedBrands)
 
 watch(() => filtersStore.price, () => {
-  setTimeout(() => {
-    rangeValues.value = [filtersStore.price.from, filtersStore.price.to]
-  }, 100)
-}, {deep: true})
+  setTimeout(() => rangeValues.value = [filtersStore.price.from, filtersStore.price.to], 100)
+}, { deep: true })
 
 </script>
 
 <template>
-  <h2 class="text-xl mb-5 mt-8">Цена</h2>
+  <h2 class="text-xl mb-3 sm:mb-5 mt-5 sm:mt-8 font-medium">Цена</h2>
 
   <Slider
     v-if="rangeValues[0] !== Infinity"

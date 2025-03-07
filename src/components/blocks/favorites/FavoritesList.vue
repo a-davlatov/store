@@ -8,12 +8,12 @@ import { getFavoritesWithProducts } from '@/api/favorites.js'
 import { useAddToCart } from '@/composables/useAddToCart.js'
 import { useRefreshIsAddedValue } from '@/composables/useRefreshIsAddedValue.js'
 import { useRemoveFromFavorites } from '@/composables/useRemoveFromFavorites.js'
-import { useCartStore } from '@/store/cartStore.js'
+import { useDrawerStore } from '@/store/drawerStore.js'
 import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 import { useProductsStore } from '@/store/productsStore'
 
 const productsStore = useProductsStore()
-const cartStore = useCartStore()
+const drawerStore = useDrawerStore()
 const loadingStore = useIsLoadingStore()
 
 onMounted(async () => {
@@ -34,7 +34,6 @@ onMounted(async () => {
     loadingStore.loading = false
   }
 })
-
 </script>
 
 <template>
@@ -64,7 +63,7 @@ onMounted(async () => {
             :image-url="product.imageUrl"
             :is-added="product.isAdded"
             :is-favorite="true"
-            @on-click-add="useAddToCart(product, cartStore.cart)"
+            @on-click-add="useAddToCart(product, drawerStore.cart)"
             @remove-from-favorites="useRemoveFromFavorites(product, true)"
           />
         </div>
