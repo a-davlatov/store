@@ -32,22 +32,14 @@ const fetchProducts = async () => {
   try {
     loadingStore.loading = true
     params.sortBy = filtersStore.sortBy
+    params.category = route.params.category
 
-    if (filtersStore.searchQuery !== '' && !route.params.category) {
-      params.title = `*${filtersStore.searchQuery}*`
-      const { data } = await getProducts(params)
-      productsStore.products = data
+    const { data } = await getProducts(params)
+    productsStore.products = data
+    filtersStore.resetPriceFilters()
 
-      // searchTitle.value = productsStore.products.length > 0 ? `По запросу: "${filtersStore.searchQuery}" найдено ${productsStore.products.length} товаров` : `По запросу: "${filtersStore.searchQuery}" ничего не найдено`
-      useRefreshIsAddedValue()
-      useFetchFavorites()
-    } else {
-      params.category = route.params.category
-      const { data } = await getProducts(params)
-      productsStore.products = data
-      useRefreshIsAddedValue()
-      useFetchFavorites()
-    }
+    useRefreshIsAddedValue()
+    useFetchFavorites()
   } catch (error) {
     console.error('An error accured: ', error.message)
   } finally {
@@ -55,17 +47,13 @@ const fetchProducts = async () => {
   }
 }
 
-const getGoods = async () => {
-  await fetchProducts()
-  filtersStore.resetPriceFilters()
+const getGoods = () => {
+  if (filtersStore.searchQuery === '') fetchProducts()
 }
 
 onMounted(getGoods)
-watch(() => route.params.category, getGoods)
 
-watch(() => route.query.title, () => {
-  if (!route.params.category) getGoods()
-})
+watch(() => route.params.category, getGoods)
 </script>
 
 <template>
@@ -94,7 +82,10 @@ watch(() => route.query.title, () => {
       <div class="grid grid-cols-1 sm:grid-cols-8 gap-5">
         <FiltersBlock v-if="productsStore.products.length > 0" />
 
-        <div class="grid col-span-1 sm:col-span-5 lg:col-span-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-1 -mx-2 h-max">
+        <div
+          :class="{ 'loading': loadingStore.loading }"
+          class="relative grid col-span-1 sm:col-span-5 lg:col-span-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-1 -mx-2 h-max"
+        >
 
           <ProductCard
             v-for="product in productsStore.products"
@@ -115,3 +106,17 @@ watch(() => route.query.title, () => {
     </div>
   </div>
 </template>
+
+<style setup>
+.loading::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+</style>
