@@ -1,5 +1,5 @@
 <script setup>
-import { watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 
@@ -20,6 +20,11 @@ const changeBrands = () => {
 }
 
 watch(() => route.params.category, () => {
+  checkedBrands.value = []
+  changeBrands()
+})
+
+onMounted(() => {
   checkedBrands.value = []
   changeBrands()
 })
