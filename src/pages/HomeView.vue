@@ -5,6 +5,7 @@ import { onMounted } from 'vue'
 import HomeSceneSneaker from '@/components/blocks/home/HomeSceneSneaker.vue'
 import HomeSwiperIntro from '@/components/blocks/home/HomeSwiperIntro.vue'
 import HomeSwiperProducts from '@/components/blocks/home/HomeSwiperProducts.vue'
+const isMobile = window.innerWidth <= 768
 
 onMounted(() => {
   if (!WebGL.isWebGL2Available()) console.warn('Warning : Your graphics card does not seem to support WebGL 2')
@@ -12,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <HomeSceneSneaker v-if="WebGL.isWebGL2Available() && window.innerWidth > 768" />
+  <HomeSceneSneaker v-if="WebGL.isWebGL2Available() && !isMobile" />
 
   <HomeSwiperIntro v-else />
 
