@@ -1,5 +1,4 @@
 <script setup>
-
 import WebGL from 'three/addons/capabilities/WebGL.js'
 import { onMounted } from 'vue'
 
@@ -13,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <HomeSceneSneaker v-if="WebGL.isWebGL2Available()" />
+  <HomeSceneSneaker v-if="WebGL.isWebGL2Available() && window.innerWidth > 768" />
 
   <HomeSwiperIntro v-else />
 
