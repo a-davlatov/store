@@ -1,5 +1,4 @@
 <script setup>
-
 import { useIsLoadingStore } from '@/store/isLoadingStore.js'
 import { AmbientLight, DirectionalLight, Mesh, PCFSoftShadowMap, PerspectiveCamera, PlaneGeometry, Scene, ShadowMaterial, WebGLRenderer } from 'three'
 import { GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js'
@@ -71,6 +70,7 @@ const onWindowResize = () => {
 	renderer.render(scene, camera)
 }
 
+let controls = null
 onMounted(() => {
 	width = sceneRef.value.offsetWidth
 	camera = new PerspectiveCamera(75, width / height, 0.1, 1000)
@@ -86,7 +86,7 @@ onMounted(() => {
 
 	window.addEventListener('resize', onWindowResize)
 
-	const controls = new OrbitControls(camera, renderer.domElement)
+	controls = new OrbitControls(camera, renderer.domElement)
 	controls.enableDamping = true
 	controls.dampingFactor = 0.05
 	controls.autoRotate = true
@@ -99,7 +99,40 @@ onMounted(() => {
 	renderer.setAnimationLoop(animate)
 })
 
-onUnmounted(() => window.removeEventListener('resize', onWindowResize))
+onUnmounted(() => {
+	window.removeEventListener('resize', onWindowResize)
+
+	// Остановить цикл рендера
+	renderer?.setAnimationLoop(null)
+
+	// Уничтожить элементы управления
+	controls?.dispose()
+
+	// Уничтожить renderer и освободить GPU
+	renderer?.dispose()
+
+	// Очистить сцену от объектов
+	scene.traverse((object) => {
+		if (object.geometry) object.geometry.dispose()
+		if (object.material) {
+			if (Array.isArray(object.material)) {
+				object.material.forEach((m) => m.dispose())
+			} else {
+				object.material.dispose()
+			}
+		}
+	})
+
+	// Удалить канвас из DOM
+	if (renderer?.domElement?.parentNode) {
+		renderer.domElement.parentNode.removeChild(renderer.domElement)
+	}
+
+	// Обнулить ссылки
+	renderer = null
+	model = null
+	camera = null
+})
 
 </script>
 
@@ -112,16 +145,9 @@ onUnmounted(() => window.removeEventListener('resize', onWindowResize))
 					<p>Интернет-магазин Vuemoda даёт возможность примерить одежду, обувь и другие товары перед оплатой заказа
 						курьеру. Оплачивайте только то, что вам подошло и понравилось!</p>
 				</div>
-				<div
-					ref="sceneRef"
-					class="relative order-1 md:order-2 overflow-hidden"
-				>
-					<img
-						src="/preloader.gif"
-						alt="Preloader"
-						class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-						v-show="loadingStore.loading"
-					>
+				<div ref="sceneRef" class="relative order-1 md:order-2 overflow-hidden">
+					<img src="/preloader.gif" alt="Preloader"
+						class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" v-show="loadingStore.loading">
 				</div>
 			</div>
 		</div>
