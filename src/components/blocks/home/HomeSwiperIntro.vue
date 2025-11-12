@@ -22,6 +22,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 							class="w-full"
 							src="/hoodies/main.jpg"
 							alt="hoodies"
+							loading="lazy"
+							decoding="async"
+							width="1080"
+							height="820"
 						>
 						<RouterLink
 							class="text-xs sm:text-base absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"
@@ -35,6 +39,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 							class="w-full"
 							v-lazy="{ src: '/sneakers/main.jpg', loading: '/preloader_sm.gif' }"
 							alt="sneakers"
+							loading="lazy"
+							decoding="async"
+							width="732"
+							height="488"
 						>
 						<RouterLink
 							class="absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"
@@ -48,6 +56,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 							class="w-full"
 							v-lazy="{ src: '/caps/main.jpg', loading: '/preloader_sm.gif' }"
 							alt="caps"
+							loading="lazy"
+							decoding="async"
+							width="2000"
+							height="1333"
 						>
 						<RouterLink
 							class="absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"
@@ -61,6 +73,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue'; /* PartiallyEnd: #3632/scriptS
 							class="w-full"
 							v-lazy="{ src: '/panamas/main.jpg', loading: '/preloader_sm.gif' }"
 							alt="panamas"
+							loading="lazy"
+							decoding="async"
+							width="1618"
+							height="1080"
 						>
 						<RouterLink
 							class="absolute bottom-5 right-5 z-10 opacity-0 mt-3 bg-black p-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"

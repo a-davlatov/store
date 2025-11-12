@@ -1,4 +1,5 @@
 <script setup>
+import IconBag from '@/components/icons/IconBag.vue'
 import { useDrawerStore } from '@/store/drawerStore.js'
 
 const drawerStore = useDrawerStore()
@@ -10,7 +11,7 @@ const drawerStore = useDrawerStore()
 		class="flex items-center gap-2 hover:text-slate-400 transition"
 	>
 		<div class="relative">
-			<i class="bi bi-bag text-xl sm:text-base"></i>
+			<IconBag class="text-xl sm:text-base" />
 			<span
 				v-show="drawerStore.cart.length > 0"
 				class="absolute -top-1  sm:-top-2 -right-2 z-10 text-xs text-center bg-orange-500 text-white w-4 h-4 rounded-xl"

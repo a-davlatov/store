@@ -1,4 +1,5 @@
 <script setup>
+import IconPersonCircle from '@/components/icons/IconPersonCircle.vue'
 import { useAuthStore } from '@/store/authStore.js'
 import { useRouter } from 'vue-router'
 const authStore = useAuthStore()
@@ -16,7 +17,7 @@ const logout = () => {
 		type="button"
 		class="relative flex items-center gap-2 hover:text-slate-400 transition profile-btn"
 	>
-		<i class="bi bi-person-circle text-xl sm:text-base"></i>
+		<IconPersonCircle class="text-xl sm:text-base" />
 		<span class="hidden sm:block text-sm">Профиль</span>
 
 		<div class="pt-10 absolute top-0 -right-16 z-20 profile-item invisible opacity-0 transition min-w-64">

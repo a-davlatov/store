@@ -145,9 +145,20 @@ onUnmounted(() => {
 					<p>Интернет-магазин Vuemoda даёт возможность примерить одежду, обувь и другие товары перед оплатой заказа
 						курьеру. Оплачивайте только то, что вам подошло и понравилось!</p>
 				</div>
-				<div ref="sceneRef" class="relative order-1 md:order-2 overflow-hidden">
-					<img src="/preloader.gif" alt="Preloader"
-						class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" v-show="loadingStore.loading">
+				<div
+					ref="sceneRef"
+					class="relative order-1 md:order-2 overflow-hidden"
+				>
+					<img
+						src="/preloader.gif"
+						alt="Preloader"
+						loading="lazy"
+						decoding="async"
+						width="236"
+						height="340"
+						class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+						v-show="loadingStore.loading"
+					>
 				</div>
 			</div>
 		</div>

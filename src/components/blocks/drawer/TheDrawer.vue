@@ -61,7 +61,7 @@ watch(() => drawerStore.cart, () => {
     @click.self="drawerStore.toggle"
     class="fixed top-0 left-0 z-20 w-full h-full bg-black/70"
   >
-    <div class="bg-white w-96 max-w-full h-full fixed right-0 top-0 z-20 p-5 sm:p-8 flex flex-col">
+    <div class="bg-white w-96 max-w-full h-full fixed right-0 top-0 z-20 p-4 sm:p-8 flex flex-col">
       <DrawerHead />
 
       <div 
@@ -86,18 +86,18 @@ watch(() => drawerStore.cart, () => {
         Чтобы оформить заказ, нужно сначала <RouterLink class="underline hover:no-underline" to="/login">войти</RouterLink> на сайт.
       </div>
 
-      <div 
+      <div
         v-show="totalPrice" 
-        class="flex flex-col gap-4 mt-7"
+        class="flex flex-col gap-4 sm:gap-5 mt-7"
       >
         <div class="flex gap-2">
           <span>Итого:</span>
           <div class="flex-1 border-b border-dashed"></div>
-          <b>{{ totalPrice }} руб.</b>
+          <strong>{{ totalPrice }} руб.</strong>
         </div>
 
         <button 
-          class="mt-3 bg-black w-full py-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"
+          class="bg-black w-full py-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"
           :disabled="isOrderCreating || !authStore.isAuth"
           @click="createOrder"
         >
@@ -114,12 +114,16 @@ watch(() => drawerStore.cart, () => {
           title="Корзина пустая"
           description="Добавьте хотя бы один товар, чтобы сделать заказ."
           image-url="/empty.avif"
+          width="1000"
+          height="819"
         />
         <DrawerInfoBlock
           v-show="drawerStore.orderCreated"
           title="Заказ оформлен!"
           :description="`Ваш заказ №${drawerStore.orderCreated}, скоро будет передан курьерской доставке`"
           image-url="/order-success-icon.png"
+          width="166"
+          height="292"
         />
       </div>
 

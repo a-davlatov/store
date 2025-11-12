@@ -9,6 +9,7 @@ import HeaderCartBtn from '../blocks/header/HeaderCartBtn.vue'
 import HeaderMenu from '../blocks/header/HeaderMenu.vue'
 import HeaderProfileBtn from '../blocks/header/HeaderProfileBtn.vue'
 import HeaderSearch from '../blocks/header/HeaderSearch.vue'
+import IconHeart from '../icons/IconHeart.vue'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -41,7 +42,7 @@ watch(() => route.params.category, () => showNav.value = false)
             to="/favorites"
             class="flex items-center gap-2 hover:text-slate-400 transition"
           >
-            <i class="bi bi-heart text-xl sm:text-base"></i>
+            <IconHeart class="text-xl sm:text-base" />
             <span class="hidden sm:block text-sm">Избранное</span>
           </RouterLink>
 

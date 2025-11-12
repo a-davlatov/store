@@ -36,7 +36,7 @@ onMounted(async () => {
 		<div class="container">
 		  <h2 class="text-xl sm:text-2xl font-bold">Скидки</h2>
 
-			<swiper
+			<Swiper
 				class="swiper-sales mt-3 sm:mt-4"
 				v-if="productsStore.products.length > 0"
 				:slides-per-view="1"
@@ -60,7 +60,7 @@ onMounted(async () => {
 				}"
 				:modules="[Autoplay]"
 			>
-				<swiper-slide
+				<SwiperSlide
 					v-for="product in productsStore.products"
 					:key="product.id"
 				>
@@ -75,8 +75,18 @@ onMounted(async () => {
 						@add-to-favorites="useAddToFavorites(product)"
 						@remove-from-favorites="useRemoveFromFavorites(product)"
 					/>
-				</swiper-slide>
-			</swiper>
+				</SwiperSlide>
+			</Swiper>
 		</div>
 	</div>
 </template>
+
+<style scoped>
+.swiper-wrapper {
+  align-items: stretch;
+}
+
+.swiper-slide {
+  height: auto !important;
+}
+</style>

@@ -1,4 +1,3 @@
-import 'bootstrap-icons/font/bootstrap-icons.min.css'
 import './assets/main.css'
 
 import { createPinia } from 'pinia'

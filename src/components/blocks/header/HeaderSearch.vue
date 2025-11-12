@@ -56,6 +56,10 @@ watch(() => route.path, () => {
     <img
       src="/search.svg"
       alt="search"
+      loading="lazy"
+      decoding="async"
+      width="16"
+      height="16"
       class="absolute top-2 left-3.5"
     >
     <input

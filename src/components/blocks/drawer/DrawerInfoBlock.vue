@@ -3,7 +3,9 @@
   defineProps({
     title: String,
     description: String,
-    imageUrl: String
+    imageUrl: String,
+    width: String,
+    height: String,
   })
 
 </script>
@@ -15,6 +17,10 @@
       <img
         :src="imageUrl" 
         :alt="title"
+        :width="width"
+        :height="height"
+        loading="lazy"
+        decoding="async"
       >
     </div>
     <h2 class="-mt-4 text-xl sm:text-2xl font-medium">{{ title }}</h2>

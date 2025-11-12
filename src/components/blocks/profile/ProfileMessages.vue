@@ -1,4 +1,7 @@
 <script setup>
+import IconCheckCircle from '@/components/icons/IconCheckCircle.vue'
+import IconCloseOctagon from '@/components/icons/IconCloseOctagon.vue'
+
 const props = defineProps({
 	errorText: String,
 	successText: String,
@@ -8,16 +11,16 @@ const props = defineProps({
 <template>
 	<div
 		v-if="props.errorText !== ''"
-		class="justify-center mb-8 text-base font-bold text-red-500 flex items-center gap-2"
+		class="mb-8 text-base font-bold text-red-500 flex items-center gap-2"
 	>
-		<i class="bi bi-x-octagon"></i>
+		<IconCloseOctagon />
 		{{ props.errorText }}
 	</div>
 	<div
 		v-if="props.successText !== ''"
-		class="justify-center mb-8 text-base font-bold text-lime-400 flex items-center gap-2"
+		class="mb-8 text-base font-bold text-lime-400 flex items-center gap-2"
 	>
-		<i class="bi bi-check-circle"></i>
+		 <IconCheckCircle />
 		{{ props.successText }}
 	</div>
 </template>

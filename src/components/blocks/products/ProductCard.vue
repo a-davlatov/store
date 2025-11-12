@@ -1,4 +1,6 @@
 <script setup>
+import IconHeart from '@/components/icons/IconHeart.vue'
+import IconHeartFill from '@/components/icons/IconHeartFill.vue'
 import { useAuthStore } from '@/store/authStore.js'
 
 const authStore = useAuthStore()
@@ -21,6 +23,10 @@ defineProps({
         class="w-full"
         v-lazy="{ src: imageUrl }"
         :alt="title"
+        width="236"
+        height="340"
+        loading="lazy"
+        decoding="async"
       >
       <div
         v-if="oldPrice"
@@ -32,7 +38,8 @@ defineProps({
         class="icon-heart absolute top-5 right-5 hover:text-orange-400 transition sm:text-xl"
         @click="isFavorite ? $emit('removeFromFavorites') : $emit('addToFavorites')"
       >
-        <i :class="!isFavorite ? 'bi bi-heart' : 'bi bi-heart-fill text-red-500'"></i>
+        <IconHeart v-if="!isFavorite" />
+        <IconHeartFill v-else class="text-red-500" />
       </button>
 
       <div

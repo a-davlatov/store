@@ -16,6 +16,8 @@ defineProps({
         <img 
           class="w-full h-full"
           v-lazy="{ src: imageUrl }"
+          loading="lazy"
+          decoding="async"
           :alt="title"
         >
       </div>
