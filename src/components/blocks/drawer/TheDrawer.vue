@@ -80,8 +80,9 @@ watch(() => drawerStore.cart, () => {
       </div>
 
       <div 
-        v-if="!authStore.isAuth && drawerStore.cart.length > 0" 
         class="text-red-600 text-center mt-2"
+        role="alert"
+        v-if="!authStore.isAuth && drawerStore.cart.length > 0"
       >
         Чтобы оформить заказ, нужно сначала <RouterLink class="underline hover:no-underline" to="/login">войти</RouterLink> на сайт.
       </div>
@@ -98,6 +99,7 @@ watch(() => drawerStore.cart, () => {
 
         <button 
           class="bg-black w-full py-3 disabled:bg-slate-400 text-white hover:bg-black/80 active:bg-black/70 transition"
+          aria-label="Оформить заказ"
           :disabled="isOrderCreating || !authStore.isAuth"
           @click="createOrder"
         >
@@ -106,7 +108,8 @@ watch(() => drawerStore.cart, () => {
       </div>
 
       <div 
-        v-if="!totalPrice || drawerStore.orderCreated" 
+        v-if="!totalPrice || drawerStore.orderCreated"
+        aria-live="polite"
         class="flex h-full items-center"
       >
         <DrawerInfoBlock

@@ -137,7 +137,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="mt-10">
+	<section class="mt-10">
 		<div class="container">
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 				<div class="order-2 md:order-1">
@@ -148,10 +148,15 @@ onUnmounted(() => {
 				<div
 					ref="sceneRef"
 					class="relative order-1 md:order-2 overflow-hidden"
+					tabindex="0"
+					role="application"
+					aria-label="3D модель кроссовка, которую можно вращать и масштабировать с помощью мыши."
 				>
 					<img
 						src="/preloader.gif"
-						alt="Preloader"
+						alt="Загрузка модели"
+						role="status"
+						aria-live="polite"
 						loading="lazy"
 						decoding="async"
 						width="236"
@@ -162,7 +167,7 @@ onUnmounted(() => {
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 </template>
 
 <style>

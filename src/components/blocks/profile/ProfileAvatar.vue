@@ -5,8 +5,8 @@ const { userName } = defineProps({
 </script>
 
 <template>
-	<div class="w-40 h-40 avatar bg-sky-200 flex items-center justify-center">
-		<span class="text-6xl text-white">{{ userName[0] }}</span>
+	<div class="sm:w-40 sm:h-40 w-20 h-20 avatar bg-sky-200 flex items-center justify-center">
+		<span class="text-2xl sm:text-6xl text-white">{{ userName[0] }}</span>
 	</div>
 </template>
 

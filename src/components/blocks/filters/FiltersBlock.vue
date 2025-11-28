@@ -62,9 +62,11 @@ onMounted(getProductsBrands)
 </script>
 
 <template>
-  <div
+  <aside
     :class="{ 'show-filters': filtersStore.isVisible }"
     class="col-span-1 sm:col-span-3 lg:col-span-2 filters"
+    role="region"
+    aria-label="Фильтры товаров"
   >
     <FiltersSort
       @fetch-products="fetchProducts"
@@ -92,7 +94,7 @@ onMounted(getProductsBrands)
       v-model:range-values="rangeValues"
       v-model:checked-brands="checkedBrands"
     />
-  </div>
+  </aside>
 </template>
 
 <style scoped>

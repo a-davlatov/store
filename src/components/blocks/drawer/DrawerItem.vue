@@ -29,6 +29,7 @@ defineProps({
         
         <button 
           class="opacity-50 hover:opacity-100 cursor-pointer transition text-2xl text-slate-300"
+          aria-label="Удалить товар из корзины"
           @click="$emit('removeFromCart')"
         >
           <IconCloseSquare />

@@ -6,6 +6,8 @@ import FiltersBlock from '@/components/blocks/filters/FiltersBlock.vue'
 import ProductCard from './ProductCard.vue'
 
 import { getProducts } from '@/api/products.js'
+import IconFilterSquare from '@/components/icons/IconFilterSquare.vue'
+import IconFilterSquareFill from '@/components/icons/IconFilterSquareFill.vue'
 import { useAddToCart } from '@/composables/useAddToCart.js'
 import { useAddToFavorites } from '@/composables/useAddToFavorites.js'
 import { useFetchFavorites } from '@/composables/useFetchFavorites.js'
@@ -57,32 +59,28 @@ watch(() => route.params.category, getGoods)
 </script>
 
 <template>
-  <div class="mt-5 sm:mt-10">
+  <section class="mt-5 sm:mt-10">
     <div class="container">
       <div class="flex items-center justify-between gap-3 mb-3 sm:mb-5">
-        <h1 class="text-2xl font-bold">
+        <h1 class="text-xl sm:text-2xl font-bold" aria-live="polite">
           {{ filtersStore.searchQuery !== '' ? searchTitle : ucFirst(route.params.category) }}
         </h1>
-        <div
+        <button
           class="sm:hidden text-base flex items-center gap-1.5 font-medium justify-end"
+          type="button"
+          :aria-label="!filtersStore.isVisible ? 'Показать фильтры' : 'Скрыть фильтры'"
           @click="filtersStore.toggle"
         >
           <span>Filter</span>
-          <i
-            class="bi bi-filter-square"
-            v-if="!filtersStore.isVisible"
-          ></i>
-          <i
-            class="bi bi-filter-square-fill"
-            v-else
-          ></i>
-        </div>
+          <IconFilterSquare v-if="!filtersStore.isVisible" />
+          <IconFilterSquareFill v-else />
+        </button>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-8 gap-5">
         <FiltersBlock v-if="productsStore.products.length > 0" />
 
-        <div
+        <ul
           :class="{ 'loading': loadingStore.loading }"
           class="relative grid col-span-1 sm:col-span-5 lg:col-span-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-1 -mx-2 h-max"
         >
@@ -101,10 +99,10 @@ watch(() => route.params.category, getGoods)
             @remove-from-favorites="useRemoveFromFavorites(product)"
           />
 
-        </div>
+        </ul>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style setup>

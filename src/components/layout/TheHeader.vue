@@ -49,7 +49,7 @@ watch(() => route.params.category, () => showNav.value = false)
           <HeaderCartBtn />
         </div>
       </div>
-      <div class="flex items-center flex-row-reverse sm:flex-row justify-between gap-3 pt-5 border-t relative">
+      <div class="sm:flex grid grid-cols-[1fr_25px] items-center sm:flex-row justify-between gap-3 pt-5 border-t relative">
         <HeaderBurger v-model="showNav" />
         <HeaderMenu />
         <HeaderSearch />

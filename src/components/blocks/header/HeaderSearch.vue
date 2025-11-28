@@ -52,10 +52,13 @@ watch(() => route.path, () => {
 </script>
 
 <template>
-  <div class="relative max-w-full">
+  <div
+    role="search"
+    class="relative -order-1 sm:-order-none"
+  >
     <img
       src="/search.svg"
-      alt="search"
+      alt=""
       loading="lazy"
       decoding="async"
       width="16"
@@ -64,8 +67,21 @@ watch(() => route.path, () => {
     >
     <input
       v-model.trim="filtersStore.searchQuery"
-      placeholder="Поиск..."
-      class="border border-gray-500 py-1 pl-10 pr-4 outline-none focus:border-black"
+      placeholder="Поиск"
+      type="search"
+      name="search"
+      aria-label="Поиск по товарам"
+      class="border border-gray-500 py-1 pl-10 pr-4 outline-none focus:border-black w-full sm:w-auto"
     />
+
+    <button
+      v-if="filtersStore.searchQuery"
+      @click="filtersStore.searchQuery = ''"
+      type="button"
+      aria-label="Очистить поле поиска"
+      class="absolute right-3.5 top-1.5 text-gray-500 hover:text-black transition-colors"
+    >
+      ✕
+    </button>
   </div>
 </template>

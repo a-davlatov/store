@@ -11,9 +11,9 @@ const props = defineProps({
 
 <template>
 	<div class="sm:mx-auto sm:w-full sm:max-w-sm">
-		<h2 class="mt-10 text-center text-xl sm:text-2xl font-bold leading-9 tracking-tight text-gray-900">
+		<h1 class="sm:mt-10 text-center text-xl sm:text-2xl font-bold leading-9 tracking-tight text-gray-900">
 			{{ props.title }}
-		</h2>
+		</h1>
 
 		<div
 			v-if="props.errorText"

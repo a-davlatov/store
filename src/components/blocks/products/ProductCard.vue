@@ -17,7 +17,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="product__card relative sm:hover:shadow-2xl p-2 h-full transition flex flex-col">
+  <li class="product__card relative sm:hover:shadow-2xl p-2 h-full transition flex flex-col">
     <div class="product__card-img w-full">
       <img
         class="w-full"
@@ -37,14 +37,20 @@ defineProps({
       <button
         class="icon-heart absolute top-5 right-5 hover:text-orange-400 transition sm:text-xl"
         @click="isFavorite ? $emit('removeFromFavorites') : $emit('addToFavorites')"
+        aria-label="Добавить товар в избранное"
+        aria-describedby="favorite-auth-hint"
       >
         <IconHeart v-if="!isFavorite" />
-        <IconHeartFill v-else class="text-red-500" />
+        <IconHeartFill
+          v-else
+          class="text-red-500"
+        />
       </button>
 
       <div
-        v-show="!authStore.isAuth"
-        class="product-prompt absolute opacity-0 invisible transition top-5 right-12 text-xs text-white px-2 py-1 rounded bg-black/60"
+        v-if="!authStore.isAuth"
+        id="favorite-auth-hint"
+        class="product-prompt pointer-events-none absolute opacity-0 transition top-5 right-12 text-xs text-white px-2 py-1 rounded bg-black/60"
       >
         Войдите сначала на сайт
       </div>
@@ -63,11 +69,12 @@ defineProps({
       <button
         class="py-1 text-sm px-5 rounded hover:bg-gray-800 bg-black text-white transition w-full"
         @click="$emit('onClickAdd')"
+        aria-label="Добавить товар в корзину"
       >
         {{ !isAdded ? 'В корзину' : 'Добавить еще' }}
       </button>
     </div>
-  </div>
+  </li>
 </template>
 
 <style scoped>

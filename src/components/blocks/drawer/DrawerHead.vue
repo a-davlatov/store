@@ -11,6 +11,7 @@ const drawerStore = useDrawerStore()
     <button 
       @click="drawerStore.toggle"
       class="opacity-30 cursor-pointer text-xl sm:text-2xl hover:opacity-100 transition hover:-translate-x-1"
+      aria-label="Закрыть корзину"
     >
       <IconArrowLeft />
     </button>

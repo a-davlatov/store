@@ -59,19 +59,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+  <section class="flex min-h-full flex-1 flex-col justify-center px-4 sm:px-6 py-12 lg:px-8">
     <FormTop
       title="Регистрация"
       :error-text="errorText"
       :success-text="successText"
     />
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-xl">
+    <div class="mt-8 sm:mt-10 sm:mx-auto sm:w-full sm:max-w-xl">
       <form
         @submit.prevent="register"
         method="POST"
       >
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <fieldset class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <legend class="hidden">Личные данные</legend>
+
           <div>
             <label
               for="name"
@@ -148,7 +150,10 @@ onMounted(() => {
               />
             </div>
           </div>
+        </fieldset>
 
+        <fieldset class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          <legend class="hidden">Пароль</legend>
           <div>
             <label
               for="password"
@@ -188,7 +193,7 @@ onMounted(() => {
               />
             </div>
           </div>
-        </div>
+        </fieldset>
 
         <div class="flex justify-center">
           <button
@@ -201,7 +206,7 @@ onMounted(() => {
         </div>
       </form>
 
-      <p class="mt-10 text-center text-sm text-gray-500">
+      <p class="mt-4 sm:mt-10 text-center text-sm text-gray-500">
         Уже есть аккаунт?
         <RouterLink
           to="/login"
@@ -211,5 +216,5 @@ onMounted(() => {
         </RouterLink>
       </p>
     </div>
-  </div>
+  </section>
 </template>

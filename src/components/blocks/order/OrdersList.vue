@@ -24,7 +24,7 @@ onMounted( async () => {
 </script>
 
 <template>
-  <div class="my-10">
+  <section class="my-10">
     <div class="container">
       <h1 v-if="orders.length > 0 || loadingStore.loading" class="text-2xl font-bold">Мои заказы</h1>
 
@@ -43,5 +43,5 @@ onMounted( async () => {
         :order-items="order.items"
       />
     </div>
-  </div>
+  </section>
 </template>

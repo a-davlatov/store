@@ -12,49 +12,51 @@ watch(() => filtersStore.sortBy, () => {
 </script>
 
 <template>
-  <h2 class="text-xl mb-3 sm:mt-2 font-medium">Сортировка</h2>
+  <div role="radiogroup" aria-labelledby="sort-heading">
+    <h2 id="sort-heading" class="text-xl mb-3 sm:mt-2 font-medium">Сортировка</h2>
 
-  <input 
-    class="hidden" 
-    type="radio" 
-    value="title" 
-    v-model="filtersStore.sortBy" 
-    id="sortBy_name"
-  >
-  <label 
-    for="sortBy_name" 
-    class="block cursor-pointer"
-  >
-    По названию
-  </label>
+    <input
+      class="sr-only"
+      type="radio"
+      value="title"
+      v-model="filtersStore.sortBy"
+      id="sortBy_name"
+    >
+    <label
+      for="sortBy_name"
+      class="block cursor-pointer"
+    >
+      По названию
+    </label>
 
-  <input 
-    class="hidden" 
-    type="radio" 
-    value="price" 
-    v-model="filtersStore.sortBy" 
-    id="sortBy_price"
-  >
-  <label 
-    for="sortBy_price" 
-    class="block cursor-pointer mt-1"
-  >
-    Цены: по возрастанию
-  </label>
+    <input
+      class="sr-only"
+      type="radio"
+      value="price"
+      v-model="filtersStore.sortBy"
+      id="sortBy_price"
+    >
+    <label
+      for="sortBy_price"
+      class="block cursor-pointer mt-1"
+    >
+      Цены: по возрастанию
+    </label>
 
-  <input 
-    class="hidden" 
-    type="radio" 
-    value="-price" 
-    v-model="filtersStore.sortBy" 
-    id="sortBy_price_desc"
-  >
-  <label 
-    for="sortBy_price_desc" 
-    class="block cursor-pointer mt-1"
-  >
-    Цены: по убыванию
-  </label>
+    <input
+      class="sr-only"
+      type="radio"
+      value="-price"
+      v-model="filtersStore.sortBy"
+      id="sortBy_price_desc"
+    >
+    <label
+      for="sortBy_price_desc"
+      class="block cursor-pointer mt-1"
+    >
+      Цены: по убыванию
+    </label>
+  </div>
 </template>
 
 <style>

@@ -32,7 +32,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="mt-8 sm:mt-10 sm:mb-20">
+	<section class="mt-8 sm:mt-10 sm:mb-20">
 		<div class="container">
 		  <h2 class="text-xl sm:text-2xl font-bold">Скидки</h2>
 
@@ -78,7 +78,7 @@ onMounted(async () => {
 				</SwiperSlide>
 			</Swiper>
 		</div>
-	</div>
+	</section>
 </template>
 
 <style scoped>

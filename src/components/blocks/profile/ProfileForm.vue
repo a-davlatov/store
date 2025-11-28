@@ -66,9 +66,9 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="my-10">
+	<section class="mt-5 sm:mt-10">
 		<div class="container">
-			<h1 class="text-2xl font-bold">Мои данные</h1>
+			<h1 class="text-xl sm:text-2xl font-bold">Мои данные</h1>
 
 			<div class="flex flex-col sm:flex-row mt-5 gap-8">
 				<ProfileAvatar :user-name="authStore.data.name" />
@@ -83,7 +83,9 @@ onMounted(() => {
 						:success-text="successText"
 					/>
 
-					<div class="grid md:grid-cols-2 gap-4 mb-8">
+					<fieldset class="grid md:grid-cols-2 gap-4 mb-4">
+						<legend class="hidden">Личные данные</legend>
+
 						<div>
 							<label
 								for="name"
@@ -160,6 +162,10 @@ onMounted(() => {
 								/>
 							</div>
 						</div>
+					</fieldset>
+
+					<fieldset class="grid md:grid-cols-2 gap-4 mb-8 items-end">
+						<legend class="hidden">Пароль</legend>
 
 						<div>
 							<label
@@ -198,7 +204,7 @@ onMounted(() => {
 								/>
 							</div>
 						</div>
-					</div>
+					</fieldset>
 
 					<button
 						:disabled="loadingStore.loading ? true : false"
@@ -210,5 +216,5 @@ onMounted(() => {
 				</form>
 			</div>
 		</div>
-	</div>
+	</section>
 </template>

@@ -64,13 +64,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+  <section class="flex min-h-full flex-1 flex-col justify-center px-4 sm:px-6 py-12 lg:px-8">
     <FormTop
       title="Вход в аккаунт"
       :error-text="errorText"
     />
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="mt-8 sm:mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form
         class="space-y-6"
         @submit.prevent="login"
@@ -127,7 +127,7 @@ onMounted(() => {
         </div>
       </form>
 
-      <p class="mt-10 text-center text-sm text-gray-500">
+      <p class="mt-4 sm:mt-10 text-center text-sm text-gray-500">
         Впервые здесь?
         <RouterLink
           to="/register"
@@ -137,5 +137,5 @@ onMounted(() => {
         </RouterLink>
       </p>
     </div>
-  </div>
+  </section>
 </template>

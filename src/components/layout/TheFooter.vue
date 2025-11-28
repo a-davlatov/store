@@ -10,18 +10,19 @@ import { MENU_DATA } from '@/constants/menu.data'
         class="sm:text-3xl text-2xl text-white font-bold logo"
       >vue moda</RouterLink>
 
-      <ul class="flex flex-col sm:flex-row gap-3 sm:gap-5 mt-5">
-        <li
-          class="text-white hover:text-slate-400 cursor-pointer transition"
-          v-for="item in MENU_DATA"
-          :key="item.name"
-        >
-          <RouterLink :to="item.url">{{ item.name }}</RouterLink>
-        </li>
-      </ul>
+      <nav>
+        <ul class="flex flex-col sm:flex-row gap-3 sm:gap-5 mt-5">
+          <li
+            class="text-white hover:text-slate-400 cursor-pointer transition"
+            v-for="item in MENU_DATA"
+            :key="item.name"
+          >
+            <RouterLink :to="item.url">{{ item.name }}</RouterLink>
+          </li>
+        </ul>
+      </nav>
 
-      <div class="text-slate-400 mt-5 pt-5 border-t">© Vue Moda 2024 - {{ new Date().getFullYear() }}. Все права
-        защищены. </div>
+      <div class="text-slate-400 mt-5 pt-5 border-t text-sm sm:text-base">© Vue Moda 2024 - {{ new Date().getFullYear() }}. Все права защищены. </div>
     </div>
   </footer>
 </template>

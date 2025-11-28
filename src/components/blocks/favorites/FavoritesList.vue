@@ -37,12 +37,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="mt-10 relative">
+  <section class="mt-5 sm:mt-10 relative">
     <div class="container">
       <div class="h-fit">
         <h1
           v-if="productsStore.products.length > 0 || loadingStore.loading"
-          class="text-2xl font-bold"
+          class="text-xl sm:text-2xl font-bold"
         >
           Избранное
         </h1>
@@ -53,7 +53,7 @@ onMounted(async () => {
           sub-title="Вы ничего не добавляли в Избранное"
         />
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 sm:gap-1 -mx-2 mt-5">
+        <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 sm:gap-1 -mx-2 mt-5">
           <ProductCard
             v-for="product in productsStore.products"
             :key="product.id"
@@ -66,8 +66,8 @@ onMounted(async () => {
             @on-click-add="useAddToCart(product, drawerStore.cart)"
             @remove-from-favorites="useRemoveFromFavorites(product, true)"
           />
-        </div>
+        </ul>
       </div>
     </div>
-  </div>
+  </section>
 </template>
