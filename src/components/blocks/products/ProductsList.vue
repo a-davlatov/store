@@ -94,6 +94,7 @@ watch(() => route.params.category, getGoods)
             :image-url="product.imageUrl"
             :is-added="product.isAdded"
             :is-favorite="product.isFavorite"
+            tag="li"
             @on-click-add="useAddToCart(product, drawerStore.cart)"
             @add-to-favorites="useAddToFavorites(product)"
             @remove-from-favorites="useRemoveFromFavorites(product)"

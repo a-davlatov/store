@@ -12,12 +12,13 @@ defineProps({
   oldPrice: Number,
   isAdded: Boolean,
   isFavorite: Boolean,
+  tag: String,
 })
 
 </script>
 
 <template>
-  <li class="product__card relative sm:hover:shadow-2xl p-2 h-full transition flex flex-col">
+  <component :is="tag" class="product__card relative sm:hover:shadow-2xl p-2 h-full transition flex flex-col">
     <div class="product__card-img w-full">
       <img
         class="w-full"
@@ -74,7 +75,7 @@ defineProps({
         {{ !isAdded ? 'В корзину' : 'Добавить еще' }}
       </button>
     </div>
-  </li>
+  </component>
 </template>
 
 <style scoped>

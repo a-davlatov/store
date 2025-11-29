@@ -71,6 +71,7 @@ onMounted(async () => {
 						:image-url="product.imageUrl"
 						:is-added="product.isAdded"
 						:is-favorite="product.isFavorite"
+						tag="div"
 						@on-click-add="useAddToCart(product, drawerStore.cart)"
 						@add-to-favorites="useAddToFavorites(product)"
 						@remove-from-favorites="useRemoveFromFavorites(product)"
