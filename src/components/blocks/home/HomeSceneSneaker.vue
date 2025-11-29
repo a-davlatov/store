@@ -155,8 +155,6 @@ onUnmounted(() => {
 					<img
 						src="/preloader.gif"
 						alt="Загрузка модели"
-						role="status"
-						aria-live="polite"
 						loading="lazy"
 						decoding="async"
 						width="236"
