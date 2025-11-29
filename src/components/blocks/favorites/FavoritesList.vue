@@ -56,6 +56,7 @@ onMounted(async () => {
         <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 sm:gap-1 -mx-2 mt-5">
           <ProductCard
             v-for="product in productsStore.products"
+            :id="product.id"
             :key="product.id"
             :title="product.title"
             :price="product.price"

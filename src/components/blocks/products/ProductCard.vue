@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/authStore.js'
 const authStore = useAuthStore()
 
 defineProps({
+  id: Number,
   imageUrl: String,
   title: String,
   price: Number,
@@ -39,7 +40,7 @@ defineProps({
         class="icon-heart absolute top-5 right-5 hover:text-orange-400 transition sm:text-xl"
         @click="isFavorite ? $emit('removeFromFavorites') : $emit('addToFavorites')"
         aria-label="Добавить товар в избранное"
-        aria-describedby="favorite-auth-hint"
+        :aria-describedby="`favorite-auth-hint-${id}`"
       >
         <IconHeart v-if="!isFavorite" />
         <IconHeartFill
@@ -50,7 +51,7 @@ defineProps({
 
       <div
         v-if="!authStore.isAuth"
-        id="favorite-auth-hint"
+        :id="`favorite-auth-hint-${id}`"
         class="product-prompt pointer-events-none absolute opacity-0 transition top-5 right-12 text-xs text-white px-2 py-1 rounded bg-black/60"
       >
         Войдите сначала на сайт

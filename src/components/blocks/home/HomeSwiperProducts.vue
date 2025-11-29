@@ -65,6 +65,7 @@ onMounted(async () => {
 					:key="product.id"
 				>
 					<ProductCard
+						:id="product.id"
 						:title="product.title"
 						:price="product.price"
 						:old-price="product.oldPrice"
