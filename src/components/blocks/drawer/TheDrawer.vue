@@ -113,7 +113,7 @@ watch(() => drawerStore.cart, () => {
         class="flex h-full items-center"
       >
         <DrawerInfoBlock
-          v-show="!totalPrice && !drawerStore.orderCreated"
+          v-if="!totalPrice && !drawerStore.orderCreated"
           title="Корзина пустая"
           description="Добавьте хотя бы один товар, чтобы сделать заказ."
           image-url="/empty.avif"
@@ -121,7 +121,7 @@ watch(() => drawerStore.cart, () => {
           height="819"
         />
         <DrawerInfoBlock
-          v-show="drawerStore.orderCreated"
+          v-if="drawerStore.orderCreated"
           title="Заказ оформлен!"
           :description="`Ваш заказ №${drawerStore.orderCreated}, скоро будет передан курьерской доставке`"
           image-url="/order-success-icon.png"
